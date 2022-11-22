@@ -81,3 +81,11 @@
   animation: fadeInUp 1s both;
   -webkit-animation: fadeInUp 1s both;
 }
+
+@mixin backgroundImage {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+}

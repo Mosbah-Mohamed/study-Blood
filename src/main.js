@@ -5,13 +5,33 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
-// start Vuelidate
+// import style
 
-import Vuelidate from "vuelidate";
+import("@/Scss/main.scss");
 
-Vue.use(Vuelidate);
+// start Vee-validate
 
-// end Vuelidate
+import {
+  ValidationObserver,
+  ValidationProvider,
+  extend,
+  localize,
+} from "vee-validate";
+import en from "vee-validate/dist/locale/en.json";
+import * as rules from "vee-validate/dist/rules";
+
+// Add a rule.
+Object.keys(rules).forEach((rule) => {
+  extend(rule, rules[rule]);
+});
+
+localize("en", en);
+
+// Register it globally
+Vue.component("ValidationObserver", ValidationObserver);
+Vue.component("ValidationProvider", ValidationProvider);
+
+// end Vee-validate
 
 // start bootstrap
 
@@ -65,11 +85,11 @@ Vue.use(AOS);
 
 //=================  start import MultiSelect ======================
 
-// import vSelect from "vue-select";
+import vSelect from "vue-select";
 
-// import "vue-select/dist/vue-select.css";
+import "vue-select/dist/vue-select.css";
 
-// Vue.component("v-select", vSelect);
+Vue.component("v-select", vSelect);
 
 // import Multiselect from "vue-multiselect";
 
@@ -87,7 +107,8 @@ import i18n from "@/Plugins/i18n.js";
 
 // start axios installation
 
-import "@/Services/axios.js";
+import axios from "@/Services/Settings.js";
+Vue.use(axios);
 
 // end axios installation
 
@@ -101,6 +122,21 @@ import "sweetalert2/dist/sweetalert2.min.css";
 Vue.use(VueSweetalert2);
 
 // start sweet alert vue
+
+// start ckeditor
+
+import CKEditor from "ckeditor4-vue";
+
+Vue.use(CKEditor);
+
+// end ckeditor
+
+// start vue tel input
+import VueTelInput from "vue-tel-input";
+import "vue-tel-input/dist/vue-tel-input.css";
+
+Vue.use(VueTelInput);
+// end vue tel input
 
 new Vue({
   router,

@@ -8,11 +8,11 @@
 
 @import "./Global/layout/_grid.scss";
 
-@import "./Global/pages/_globalPages.scss";
-
 @import "./Global/components/_buttons.scss";
 
 @import "./Global/components/_headings.scss";
+
+@import "./Global/pages/_globalPages.scss";
 
 // start layouts
 @import "./Global/layout/_navbar.scss";
@@ -27,13 +27,37 @@
 
 @import "./Global/layout/_sidebar.scss";
 
-@import "./Global/pages/packages";
-
-@import "./Global/pages/forgetpassword";
+@import "./Global/pages/Topics";
 
 @import "./Global/pages/contact";
 
 @import "./Global/pages/About";
+
+@import "./Global/pages/work_us";
+
+@import "./Global/pages/work";
+
+@import "./Global/pages/score";
+
+@import "./Global/pages/packages";
+
+@import "./Global/pages/payment";
+
+@import "./Global/pages/profile";
+
+@import "./Global/pages/mcqRevision";
+
+@import "./Global/pages/resources";
+
+@import "./Global/pages/exams";
+
+@import "./Global/pages/correctExam";
+
+// start Auth
+
+@import "./Global/AuthScss/signup";
+
+// end Auth
 
 @import "./Global/pages/errorpage";
 
