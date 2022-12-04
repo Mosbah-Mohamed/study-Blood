@@ -319,7 +319,7 @@
                                                     <h3>Number Of Questions:</h3>
 
                                                     <v-select maxHeight="40px" :placeholder="placeholder.default"
-                                                        :options="options">
+                                                        :options="options" v-model="questions_count">
                                                     </v-select>
                                                 </div>
                                                 <div class="info_checkboxes">
@@ -543,6 +543,7 @@ export default {
 
             timedData: [],
             duration: '',
+            questions_count: '',
 
             previous_exams: []
 
@@ -674,7 +675,7 @@ export default {
         async sendDataTime() {
             try {
 
-                this.axios.post('exam/start', { topic_id: this.$route.params.id, categories: this.selectedBoxesTime, duration: this.duration, exam_type: this.exam_type }).then(response => {
+                this.axios.post('exam/start', { topic_id: this.$route.params.id, categories: this.selectedBoxesTime, questions_count: this.questions_count, duration: this.duration, exam_type: this.exam_type }).then(response => {
                     console.log(response.data.message)
 
                     this.$swal.fire({
