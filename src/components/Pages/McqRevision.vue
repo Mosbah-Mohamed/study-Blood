@@ -192,27 +192,144 @@
 
 
                                                 <div class="info_checkboxes">
+
+                                                    <h3>Categories</h3>
+
+                                                    <div class="collapse_with_input"
+                                                        v-for="(category, index) in timedData">
+                                                        <label class="containercheck" v-b-toggle="'collapse-' + index">
+                                                            <input @click.stop type="checkbox" :key="('m' + index)"
+                                                                v-model="selectedBoxesTime" :value="category.id">
+                                                            <span class="checkmark"></span>
+                                                            <div class="words">
+                                                                <span>{{ category.name }}</span>
+                                                                <div class="advantage">
+                                                                    <span>{{ category.questions_count }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <span class="red"></span>
+                                                        </label>
+
+                                                        <b-collapse :id="'collapse-' + index" class="mt-2"
+                                                            v-if="category.sub_categories">
+                                                            <b-card>
+
+                                                                <label class="containercheck"
+                                                                    v-for="(sub_category, index) in category.sub_categories">
+                                                                    <input @click.stop type="checkbox"
+                                                                        :key="'v' + index" v-model="selectedBoxesTime"
+                                                                        :value="sub_category.id" name="sub_category">
+
+                                                                    <span class="checkmark"></span>
+                                                                    <div class="words">
+                                                                        <span>{{ sub_category.name }}</span>
+                                                                        <div class="advantage">
+                                                                            <span>{{ sub_category.questions_count
+                                                                            }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="red"></span>
+                                                                </label>
+
+
+                                                                <!-- <b-collapse id="collapse-1-inner" class="mt-2">
+                <b-card>
+
+                    <label class="containercheck">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                        <div class="words">
+                            <span>All</span>
+                            <div class="advantage">
+                                <span>Attempted 12 Of 4,324</span>
+                            </div>
+                        </div>
+                        <span class="red"></span>
+                    </label>
+
+                </b-card>
+            </b-collapse> -->
+
+                                                            </b-card>
+                                                        </b-collapse>
+                                                    </div>
+
+
+
+                                                    <!-- <label class="containercheck">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <div class="words">
+        <span>All</span>
+        <div class="advantage">
+            <span>Attempted 12 Of 4,324</span>
+        </div>
+    </div>
+    <span class="red"></span>
+</label>
+
+<label class="containercheck">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <div class="words">
+        <span>All</span>
+        <div class="advantage">
+            <span>Attempted 12 Of 4,324</span>
+        </div>
+    </div>
+    <span class="red"></span>
+</label>
+
+<label class="containercheck">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <div class="words">
+        <span>All</span>
+        <div class="advantage">
+            <span>Attempted 12 Of 4,324</span>
+        </div>
+    </div>
+    <span class="red"></span>
+</label>
+
+<label class="containercheck">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <div class="words">
+        <span>All</span>
+        <div class="advantage">
+            <span>Attempted 12 Of 4,324</span>
+        </div>
+    </div>
+    <span class="red"></span>
+</label> -->
+
+                                                </div>
+
+
+
+                                                <!-- <div class="info_checkboxes">
                                                     <h3>Categories</h3>
 
                                                     <v-select maxHeight="40px" :placeholder="placeholder.default"
                                                         v-model="selected" :options="options">
                                                     </v-select>
-                                                </div>
+                                                </div> -->
                                                 <div class="info_checkboxes">
                                                     <h3>Number Of Questions:</h3>
 
                                                     <v-select maxHeight="40px" :placeholder="placeholder.default"
-                                                        v-model="selected" :options="options">
+                                                        :options="options">
                                                     </v-select>
                                                 </div>
                                                 <div class="info_checkboxes">
                                                     <h3>Length Of Test (Minutes, Will Default To The Amount Of Time
                                                         Given In The Exam):</h3>
 
-                                                    <input type="text" placeholder="Enter Number">
+                                                    <input type="text" v-model="duration" placeholder="Enter Number">
                                                 </div>
 
-                                                <button class="main--btn" @>
+                                                <button class="main--btn" @click="sendDataTime()">
 
                                                     <span>Start The Questions</span>
                                                     <span>
@@ -306,7 +423,8 @@
                                                     <span class="number">180</span> Minutes
                                                 </p>
 
-                                                <button @click="sendDataMock()">start exam</button>
+                                                <button class="main--btn mt-3" @click="sendDataMock()">start
+                                                    exam</button>
 
                                             </div>
                                             <div class="mock-exam position-relative">
@@ -404,7 +522,7 @@ export default {
     data() {
         return {
             selected: 'Show Me New Quesations Only',
-            options: [],
+            options: [10, 20, 30, 40, 50,],
             placeholder: {
                 default: ""
             },
@@ -417,9 +535,14 @@ export default {
 
             selectedBoxes: [],
 
+            selectedBoxesTime: [],
+
             childCheckbox: [],
             parentCheckbox: [],
             exam_type: 'question',
+
+            timedData: [],
+            duration: '',
 
             previous_exams: []
 
@@ -473,7 +596,7 @@ export default {
                 this.axios.get(`topic/${this.$route.params.id}/time`).then(response => {
                     // this.loading = true;
                     // this.topic_name = response.data.data.topic.name;
-                    // this.categoriesGet = response.data.data.categories;
+                    this.timedData = response.data.data.categories;
                     // this.question_selection = response.data.data.question_selection;
                     // // this.exam_type = response.data.data.exam_type;
                     this.previous_exams = response.data.data.previous_exams;
@@ -522,6 +645,36 @@ export default {
             try {
 
                 this.axios.post('exam/start', { topic_id: this.$route.params.id, exam_type: this.exam_type }).then(response => {
+                    console.log(response.data.message)
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }).catch(error => {
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async sendDataTime() {
+            try {
+
+                this.axios.post('exam/start', { topic_id: this.$route.params.id, categories: this.selectedBoxesTime, duration: this.duration, exam_type: this.exam_type }).then(response => {
                     console.log(response.data.message)
 
                     this.$swal.fire({
