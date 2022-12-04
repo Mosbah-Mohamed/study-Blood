@@ -7,11 +7,12 @@
 
                     <div class="all_questions">
 
-                        <h2>MRCP PART 1 REVISION</h2>
+                        <h2>{{ topic_name }}</h2>
+                        <!-- {{ exam_type }} -->
 
                         <b-tabs>
 
-                            <b-tab title="Question" active>
+                            <b-tab title="Question" active @click="(exam_type = 'question')">
 
                                 <div class="question__tab">
 
@@ -26,59 +27,68 @@
 
                                                     <h3>Categories</h3>
 
-                                                    <label class="containercheck" v-b-toggle.collapse-1>
-                                                        <input @click.stop type="checkbox">
-                                                        <span class="checkmark"></span>
-                                                        <div class="words">
-                                                            <span>All</span>
-                                                            <div class="advantage">
-                                                                <span>Attempted 12 Of 4,324</span>
-                                                            </div>
-                                                        </div>
-                                                        <span class="red"></span>
-                                                    </label>
-
-                                                    <b-collapse id="collapse-1" class="mt-2">
-                                                        <b-card>
-
-                                                            <label class="containercheck" v-b-toggle.collapse-1-inner>
-                                                                <input @click.stop type="checkbox">
-                                                                <span class="checkmark"></span>
-                                                                <div class="words">
-                                                                    <span>All</span>
-                                                                    <div class="advantage">
-                                                                        <span>Attempted 12 Of 4,324</span>
-                                                                    </div>
+                                                    <div class="collapse_with_input"
+                                                        v-for="(category, index) in categoriesGet">
+                                                        <label class="containercheck" v-b-toggle="'collapse-' + index">
+                                                            <input @click.stop type="checkbox" :key="('l' + index)"
+                                                                v-model="selectedBoxes" :value="category.id">
+                                                            <span class="checkmark"></span>
+                                                            <div class="words">
+                                                                <span>{{ category.name }}</span>
+                                                                <div class="advantage">
+                                                                    <span>{{ category.questions_count }}</span>
                                                                 </div>
-                                                                <span class="red"></span>
-                                                            </label>
+                                                            </div>
+                                                            <span class="red"></span>
+                                                        </label>
 
+                                                        <b-collapse :id="'collapse-' + index" class="mt-2"
+                                                            v-if="category.sub_categories">
+                                                            <b-card>
 
+                                                                <label class="containercheck"
+                                                                    v-for="(sub_category, index) in category.sub_categories">
+                                                                    <input @click.stop type="checkbox"
+                                                                        :key="'c' + index" v-model="selectedBoxes"
+                                                                        :value="sub_category.id" name="sub_category">
 
-                                                            <b-collapse id="collapse-1-inner" class="mt-2">
-                                                                <b-card>
-
-                                                                    <label class="containercheck">
-                                                                        <input type="checkbox">
-                                                                        <span class="checkmark"></span>
-                                                                        <div class="words">
-                                                                            <span>All</span>
-                                                                            <div class="advantage">
-                                                                                <span>Attempted 12 Of 4,324</span>
-                                                                            </div>
+                                                                    <span class="checkmark"></span>
+                                                                    <div class="words">
+                                                                        <span>{{ sub_category.name }}</span>
+                                                                        <div class="advantage">
+                                                                            <span>{{ sub_category.questions_count
+                                                                            }}</span>
                                                                         </div>
-                                                                        <span class="red"></span>
-                                                                    </label>
-
-                                                                </b-card>
-                                                            </b-collapse>
+                                                                    </div>
+                                                                    <span class="red"></span>
+                                                                </label>
 
 
+                                                                <!-- <b-collapse id="collapse-1-inner" class="mt-2">
+                                                                    <b-card>
 
-                                                        </b-card>
-                                                    </b-collapse>
+                                                                        <label class="containercheck">
+                                                                            <input type="checkbox">
+                                                                            <span class="checkmark"></span>
+                                                                            <div class="words">
+                                                                                <span>All</span>
+                                                                                <div class="advantage">
+                                                                                    <span>Attempted 12 Of 4,324</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="red"></span>
+                                                                        </label>
 
-                                                    <label class="containercheck">
+                                                                    </b-card>
+                                                                </b-collapse> -->
+
+                                                            </b-card>
+                                                        </b-collapse>
+                                                    </div>
+
+
+
+                                                    <!-- <label class="containercheck">
                                                         <input type="checkbox">
                                                         <span class="checkmark"></span>
                                                         <div class="words">
@@ -124,19 +134,22 @@
                                                             </div>
                                                         </div>
                                                         <span class="red"></span>
-                                                    </label>
+                                                    </label> -->
 
                                                 </div>
 
                                                 <div class="info_checkboxes half_width">
                                                     <h3>Question Selection:</h3>
 
-                                                    <v-select maxHeight="40px" open :placeholder="placeholder.default"
-                                                        :options="options">
+                                                    <!-- <h3>{{ val_select.key }}</h3> -->
+
+                                                    <v-select maxHeight="40px" label="option"
+                                                        :placeholder="placeholder.default" :options="question_selection"
+                                                        v-model="val_select">
                                                     </v-select>
                                                 </div>
 
-                                                <button class="main--btn">
+                                                <button class="main--btn" @click="sendData()">
 
                                                     <span>Start The Questions</span>
                                                     <span>
@@ -166,7 +179,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Time Test">
+                            <b-tab title="Time Test" @click="(exam_type = 'time')">
 
                                 <div class="question__tab">
 
@@ -199,7 +212,7 @@
                                                     <input type="text" placeholder="Enter Number">
                                                 </div>
 
-                                                <button class="main--btn">
+                                                <button class="main--btn" @>
 
                                                     <span>Start The Questions</span>
                                                     <span>
@@ -222,36 +235,23 @@
                                                                 <th scope="col">Others</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody v-for="(previous_exam, index) in previous_exams"
+                                                            :key="('g' + index)">
                                                             <tr>
-                                                                <td>5th September 22</td>
+                                                                <td>{{ previous_exam.date }}</td>
                                                                 <td>
                                                                     <div class="flex-center last_cell">
                                                                         <span class="dot"></span>
-                                                                        <span>P_5_1 72 questions over 0 mins</span>
+                                                                        <span>{{ previous_exam.details }}</span>
                                                                     </div>
 
                                                                 </td>
                                                                 <td>
                                                                     <div class="flex-center last_cell">
-                                                                        <span>P_5_1 72 questions over 0 mins</span>
-                                                                        <span class="continue">continue</span>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5th September 22</td>
-                                                                <td>
-                                                                    <div class="flex-center last_cell">
-                                                                        <span class="dot"></span>
-                                                                        <span>P_5_1 72 questions over 0 mins</span>
-                                                                    </div>
-
-                                                                </td>
-                                                                <td>
-                                                                    <div class="flex-center last_cell">
-                                                                        <span>P_5_1 72 questions over 0 mins</span>
-                                                                        <span class="review">review</span>
+                                                                        <span>{{ previous_exam.status }}</span>
+                                                                        <span class="continue">{{
+                                                                                previous_exam.operation
+                                                                        }}</span>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -289,7 +289,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Mock Exams">
+                            <b-tab title="Mock Exams" @click="(exam_type = 'mock')">
 
                                 <div class="question__tab tab_three">
 
@@ -305,6 +305,8 @@
                                                     Over
                                                     <span class="number">180</span> Minutes
                                                 </p>
+
+                                                <button @click="sendDataMock()">start exam</button>
 
                                             </div>
                                             <div class="mock-exam position-relative">
@@ -402,17 +404,150 @@ export default {
     data() {
         return {
             selected: 'Show Me New Quesations Only',
-            options: [
-                'Show Me New Quesations Only',
-                'bar',
-                'baz'
-            ],
+            options: [],
             placeholder: {
                 default: ""
             },
 
+            topic_name: '',
+            categoriesGet: [],
+            question_selection: [],
+            val_select: '',
+
+
+            selectedBoxes: [],
+
+            childCheckbox: [],
+            parentCheckbox: [],
+            exam_type: 'question',
+
+            previous_exams: []
+
         }
-    }
+    },
+
+
+    mounted() {
+        this.getData();
+        this.getDataTimed();
+    },
+
+
+
+
+
+
+    methods: {
+
+        toggleType(e) {
+            // this.exam_type = e.target.value;
+
+            console.log(e.target)
+
+        },
+
+
+        async getData() {
+            try {
+
+                this.axios.get(`topic/${this.$route.params.id}/question`).then(response => {
+                    this.loading = true;
+                    this.topic_name = response.data.data.topic.name;
+                    this.categoriesGet = response.data.data.categories;
+                    this.question_selection = response.data.data.question_selection;
+                    // this.exam_type = response.data.data.exam_type;
+
+                    console.log(response.data.data.categories)
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async getDataTimed() {
+            try {
+
+                this.axios.get(`topic/${this.$route.params.id}/time`).then(response => {
+                    // this.loading = true;
+                    // this.topic_name = response.data.data.topic.name;
+                    // this.categoriesGet = response.data.data.categories;
+                    // this.question_selection = response.data.data.question_selection;
+                    // // this.exam_type = response.data.data.exam_type;
+                    this.previous_exams = response.data.data.previous_exams;
+
+                    console.log(response.data.data.categories)
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async sendData() {
+            try {
+
+                this.axios.post('exam/start', { mode: this.val_select.key, categories: this.selectedBoxes, topic_id: this.$route.params.id, exam_type: this.exam_type }).then(response => {
+                    console.log(response.data.message)
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }).catch(error => {
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async sendDataMock() {
+            try {
+
+                this.axios.post('exam/start', { topic_id: this.$route.params.id, exam_type: this.exam_type }).then(response => {
+                    console.log(response.data.message)
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }).catch(error => {
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        }
+    },
 }
 </script>
 

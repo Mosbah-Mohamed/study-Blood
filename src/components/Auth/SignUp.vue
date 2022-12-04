@@ -13,14 +13,7 @@
 
                     <div class="signup__box" data-aos="fade-up">
 
-                        <ValidationObserver v-slot="{ handleSubmit }">
-                            <!-- <form @submit.prevent="handleSubmit(onSubmit)">
-                                <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
-                                    <input v-model="email" type="email">
-                                    <span>{{ errors[0] }}</span>
-                                </ValidationProvider>
-
-                            </form> -->
+                        <ValidationObserver v-slot="{ invalid, handleSubmit }" ref='observer'>
 
                             <form action="" @submit.prevent="handleSubmit(sendData)">
 
@@ -39,7 +32,8 @@
                                     </p>
                                 </div>
 
-                                <ValidationProvider name="name" rules="required|alpha|min:3" v-slot="{ errors }">
+                                <ValidationProvider name="name" rules="required|englishLettersOnly|min:3"
+                                    v-slot="{ errors }">
                                     <div class="form-group">
                                         <label for="">Name:</label>
                                         <input type="text" v-model="formData.name" placeholder="Type Name" required>
@@ -62,23 +56,25 @@
                                         defaultCountry="sa" required v-model.trim="formData.phone"></vue-tel-input>
                                 </div>
 
-                                <div class="form-group position-relative">
-                                    <label for="">Password :</label>
-                                    <input :type="[showPassword ? 'text' : 'password']" placeholder="************"
-                                        required v-model="formData.password">
-                                    <span class="eye" @click="showPassword = !showPassword">
-                                        <font-awesome-icon :icon="icon" />
-                                    </span>
-                                </div>
+                                <ValidationProvider name="password" rules="required|min:8" v-slot="{ errors }">
+                                    <div class="form-group position-relative">
+                                        <label for="">Password :</label>
+                                        <input :type="[showPassword ? 'text' : 'password']" placeholder="********"
+                                            required v-model="formData.password">
+                                        <span class="eye" @click="showPassword = !showPassword">
+                                            <font-awesome-icon :icon="icon" />
+                                        </span>
+                                    </div>
+                                    <span class="error_validate">{{ errors[0] }}</span>
+                                </ValidationProvider>
 
                                 <div class="form-group">
-                                    <button type="submit" class="main--btn">Sign Up</button>
+                                    <button :disabled="invalid" type="submit" class="main--btn">Sign Up</button>
                                 </div>
 
                             </form>
+
                         </ValidationObserver>
-
-
 
                     </div>
 
@@ -100,13 +96,16 @@ import CopyRightComponent from '../Globals/CopyRightComponent.vue';
 import Navbar from '../Globals/Navbar.vue';
 
 
-// import { required, minLength } from 'vuelidate/lib/validators';
-
 export default {
     name: "signup",
     data() {
         return {
+
+            // for icon show password
+
             showPassword: false,
+
+            // form input data
 
             formData: {
                 name: "",
@@ -114,6 +113,9 @@ export default {
                 password: "",
                 phone: ""
             },
+
+            // vue tel input options
+
             dropdownOptions: {
                 showDialCodeInSelection: true,
                 showFlags: true,
@@ -121,20 +123,12 @@ export default {
             },
             inputOptions: {
                 required: true,
-                maxlength: 18,
+                maxlength: 14,
                 showDialCode: true
             }
         }
     },
-    // validations: {
-    //     formData: {
-    //         name: {
-    //             required,
-    //             minLength: minLength(4)
-    //         }
-    //     }
 
-    // },
     computed: {
         icon() {
             if (this.showPassword) {
@@ -150,6 +144,9 @@ export default {
     },
 
     methods: {
+
+        // send form input signup data
+
         async sendData() {
 
             try {
@@ -159,6 +156,9 @@ export default {
                     this.formData.email = "";
                     this.formData.password = "";
                     this.formData.phone = "";
+
+
+                    this.$refs.observer.reset();
 
                     this.$swal.fire({
                         position: 'center',
@@ -196,10 +196,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.error_validate {
-    display: block;
-    color: #ff4d00;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
+
 </style>

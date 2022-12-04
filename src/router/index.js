@@ -5,145 +5,155 @@ import ErrorView from "@/views/GlobalView/ErrorView";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: () =>
-      import(/* webpackChunkName: "home" */ "@/views/GlobalView/HomeView.vue"),
-  },
-  {
-    path: "/about",
-    name: "about",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/PagesView/AboutView.vue"),
-  },
-  {
-    path: "/work-with-us",
-    name: "work-with-us",
-    component: () =>
-      import(/* webpackChunkName: "work" */ "@/views/PagesView/WorkView.vue"),
-  },
-  {
-    path: "/packages",
-    name: "packages",
-    component: () =>
-      import(
-        /* webpackChunkName: "packages" */ "@/views/PagesView/PackagesView.vue"
-      ),
-  },
-  {
-    path: "/profile",
-    name: "profile",
-    component: () =>
-      import(
-        /* webpackChunkName: "profile" */ "@/views/PagesView/ProfileView.vue"
-      ),
-    // meta: { requiresAuth: true },
-  },
-  {
-    path: "/mcqRevision",
-    name: "mcqRevision",
-    component: () =>
-      import(
-        /* webpackChunkName: "mcqRevision" */ "@/views/PagesView/McqRevisionView.vue"
-      ),
-  },
-  {
-    path: "/resources",
-    name: "resources",
-    component: () =>
-      import(
-        /* webpackChunkName: "Resources" */ "@/views/PagesView/ResourcesView.vue"
-      ),
-  },
-  {
-    path: "/contact",
-    name: "contact",
-    component: () =>
-      import(
-        /* webpackChunkName: "contact" */ "@/views/PagesView/ContactView.vue"
-      ),
-  },
-  {
-    path: "/payment",
-    name: "payment",
-    component: () =>
-      import(
-        /* webpackChunkName: "payment" */ "@/views/PagesView/PaymentView.vue"
-      ),
-  },
-  {
-    path: "/correctExams",
-    name: "correctExams",
-    component: () =>
-      import(
-        /* webpackChunkName: "correctExams" */ "@/views/PagesView/CorrectExamsView.vue"
-      ),
-  },
-  {
-    path: "/score",
-    name: "score",
-    component: () =>
-      import(/* webpackChunkName: "score" */ "@/views/PagesView/ScoreView.vue"),
-  },
-  {
-    path: "/exams",
-    name: "exams",
-    component: () =>
-      import(/* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"),
-  },
-  {
-    path: "/forgetPassword",
-    name: "forgetPassword",
-    component: () =>
-      import(
-        /* webpackChunkName: "forgetPassword" */ "@/views/GlobalView/ForgetPasswordView.vue"
-      ),
-  },
-  {
-    path: "/newPassword",
-    name: "newPassword",
-    component: () =>
-      import(
-        /* webpackChunkName: "newPassword" */ "@/views/GlobalView/NewPasswordView.vue"
-      ),
-  },
-  {
-    path: "/passCode",
-    name: "passCode",
-    component: () =>
-      import(
-        /* webpackChunkName: "passCode" */ "@/views/GlobalView/PassCodeView.vue"
-      ),
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: () =>
-      import(
-        /* webpackChunkName: "login" */ "@/views/GlobalView/LoginView.vue"
-      ),
-    // meta: { disallowAuthed: true },
-  },
-  {
-    path: "/signup",
-    name: "signup",
-    component: () =>
-      import(
-        /* webpackChunkName: "signup" */ "@/views/GlobalView/SignUpView.vue"
-      ),
-  },
-  {
-    path: "/:catchAll(.*)",
-    name: "ErrorPage",
-    component: ErrorView,
-  },
+    {
+        path: "/",
+        name: "home",
+        component: () =>
+            import(
+                /* webpackChunkName: "home" */ "@/views/GlobalView/HomeView.vue"
+            ),
+    },
+    {
+        path: "/about",
+        name: "about",
+        component: () =>
+            import(
+                /* webpackChunkName: "about" */ "@/views/PagesView/AboutView.vue"
+            ),
+    },
+    {
+        path: "/work-with-us",
+        name: "work-with-us",
+        component: () =>
+            import(
+                /* webpackChunkName: "work" */ "@/views/PagesView/WorkView.vue"
+            ),
+    },
+    {
+        path: "/packages/:id",
+        name: "packages",
+        component: () =>
+            import(
+                /* webpackChunkName: "packages" */ "@/views/PagesView/PackagesView.vue"
+            ),
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: () =>
+            import(
+                /* webpackChunkName: "profile" */ "@/views/PagesView/ProfileView.vue"
+            ),
+        // meta: { requiresAuth: true },
+    },
+    {
+        path: "/topic/:id",
+        name: "mcqRevision",
+        component: () =>
+            import(
+                /* webpackChunkName: "mcqRevision" */ "@/views/PagesView/McqRevisionView.vue"
+            ),
+    },
+    {
+        path: "/resources",
+        name: "resources",
+        component: () =>
+            import(
+                /* webpackChunkName: "Resources" */ "@/views/PagesView/ResourcesView.vue"
+            ),
+    },
+    {
+        path: "/contact",
+        name: "contact",
+        component: () =>
+            import(
+                /* webpackChunkName: "contact" */ "@/views/PagesView/ContactView.vue"
+            ),
+    },
+    {
+        path: "/payment",
+        name: "payment",
+        component: () =>
+            import(
+                /* webpackChunkName: "payment" */ "@/views/PagesView/PaymentView.vue"
+            ),
+    },
+    {
+        path: "/correctExams",
+        name: "correctExams",
+        component: () =>
+            import(
+                /* webpackChunkName: "correctExams" */ "@/views/PagesView/CorrectExamsView.vue"
+            ),
+    },
+    {
+        path: "/score",
+        name: "score",
+        component: () =>
+            import(
+                /* webpackChunkName: "score" */ "@/views/PagesView/ScoreView.vue"
+            ),
+    },
+    {
+        path: "/exams",
+        name: "exams",
+        component: () =>
+            import(
+                /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"
+            ),
+    },
+    {
+        path: "/forgetPassword",
+        name: "forgetPassword",
+        component: () =>
+            import(
+                /* webpackChunkName: "forgetPassword" */ "@/views/GlobalView/ForgetPasswordView.vue"
+            ),
+    },
+    {
+        path: "/newPassword",
+        name: "newPassword",
+        component: () =>
+            import(
+                /* webpackChunkName: "newPassword" */ "@/views/GlobalView/NewPasswordView.vue"
+            ),
+    },
+    {
+        path: "/passCode",
+        name: "passCode",
+        component: () =>
+            import(
+                /* webpackChunkName: "passCode" */ "@/views/GlobalView/PassCodeView.vue"
+            ),
+    },
+    {
+        path: "/login",
+        name: "login",
+        component: () =>
+            import(
+                /* webpackChunkName: "login" */ "@/views/GlobalView/LoginView.vue"
+            ),
+        // meta: { disallowAuthed: true },
+    },
+    {
+        path: "/signup",
+        name: "signup",
+        component: () =>
+            import(
+                /* webpackChunkName: "signup" */ "@/views/GlobalView/SignUpView.vue"
+            ),
+    },
+    {
+        path: "/:catchAll(.*)",
+        name: "ErrorPage",
+        component: ErrorView,
+    },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
 });
 
 // router.beforeEach((to, from, next) => {

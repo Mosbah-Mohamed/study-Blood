@@ -13,46 +13,58 @@
 
                     <div class="signup__box">
 
-                        <form action="" @submit.prevent="sendData">
+                        <ValidationObserver v-slot="{ handleSubmit, invalid }" ref="observer">
 
-                            <div class="form_head">
-                                <h4>
-                                    <span>LOG</span>
-                                    <span class="up_word">IN</span>
-                                </h4>
-                            </div>
+                            <form action="" @submit.prevent="handleSubmit(sendData)">
 
-                            <div class="form-group">
-                                <label for="">E-Mail:</label>
-                                <input type="email" placeholder="Hralryad@Gmail.Com" v-model="formData.email">
-                            </div>
-
-                            <div class="form-group position-relative">
-                                <label for="">Password :</label>
-                                <input :type="[showPassword ? 'text' : 'password']" placeholder="************"
-                                    v-model="formData.password">
-                                <span class="eye" @click="showPassword = !showPassword">
-                                    <font-awesome-icon :icon="icon" />
-                                </span>
-                            </div>
-
-                            <div class="form-group remember_row">
-                                <div class="remember_me">
-                                    <router-link to="/forgetPassword">
-                                        <span>Forget Password</span>
-                                    </router-link>
+                                <div class="form_head">
+                                    <h4>
+                                        <span>LOG</span>
+                                        <span class="up_word">IN</span>
+                                    </h4>
                                 </div>
-                                <div class="check_box">
-                                    <label for="">Remember Me</label>
-                                    <input type="checkbox">
+
+                                <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
+                                    <div class="form-group">
+                                        <label for="">E-Mail:</label>
+                                        <input type="email" v-model.trim="formData.email"
+                                            placeholder="Hralryad@Gmail.Com">
+                                        <span class="error_validate">{{ errors[0] }}</span>
+                                    </div>
+                                </ValidationProvider>
+
+
+                                <ValidationProvider name="password" rules="required|min:8" v-slot="{ errors }">
+                                    <div class="form-group position-relative">
+                                        <label for="">Password :</label>
+                                        <input :type="[showPassword ? 'text' : 'password']" placeholder="********"
+                                            required v-model.trim="formData.password">
+                                        <span class="eye" @click="showPassword = !showPassword">
+                                            <font-awesome-icon :icon="icon" />
+                                        </span>
+                                    </div>
+                                    <span class="error_validate">{{ errors[0] }}</span>
+                                </ValidationProvider>
+
+                                <div class="form-group remember_row">
+                                    <div class="remember_me">
+                                        <router-link to="/forgetPassword">
+                                            <span>Forget Password</span>
+                                        </router-link>
+                                    </div>
+                                    <div class="check_box">
+                                        <label for="">Remember Me</label>
+                                        <input type="checkbox">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <button type="submit" class="main--btn">Log In</button>
-                            </div>
+                                <div class="form-group">
+                                    <button type="submit" :disabled="invalid" class="main--btn">Log In</button>
+                                </div>
 
-                        </form>
+                            </form>
+
+                        </ValidationObserver>
 
                     </div>
 
@@ -83,10 +95,14 @@ export default {
     data() {
         return {
             showPassword: false,
+
+            // form input data 
+
             formData: {
                 email: '',
                 password: ''
-            }
+            },
+
         }
     },
 
@@ -105,6 +121,9 @@ export default {
     },
 
     methods: {
+
+        //send form input data login
+
         async sendData() {
 
             try {
@@ -112,6 +131,8 @@ export default {
 
                     this.formData.email = "";
                     this.formData.password = "";
+
+                    this.$refs.observer.reset();
 
                     this.$swal.fire({
                         position: 'center',
@@ -122,7 +143,11 @@ export default {
                         timer: 3000
                     });
 
-                    this.$router.push('/');
+                    console.log(res.data.data.token)
+
+                    localStorage.setItem('authToken', res.data.data.token)
+
+                    // this.$router.push('/');
 
 
                 }).catch(error => {
@@ -142,6 +167,7 @@ export default {
             }
 
         }
+
     },
 
     components: { Navbar, CopyRightComponent }

@@ -12,37 +12,45 @@
 
                     <div class="signup__box">
 
-                        <form action="" @submit.prevent="sendData">
+                        <ValidationObserver v-slot="{ invalid, handleSubmit }" ref='observer'>
 
-                            <router-link to="/login">
-                                <div class="form_back">
-                                    <span>
-                                        <font-awesome-icon icon="fa-solid fa-chevron-left" />
-                                    </span>
-                                    <span>Back</span>
+                            <form action="" @submit.prevent="handleSubmit(sendData)">
+
+                                <router-link to="/login">
+                                    <div class="form_back">
+                                        <span>
+                                            <font-awesome-icon icon="fa-solid fa-chevron-left" />
+                                        </span>
+                                        <span>Back</span>
+                                    </div>
+                                </router-link>
+
+                                <div class="form_head">
+                                    <h4>
+                                        <span>RECOVER</span>
+                                        <span class="up_word">PASSWORD</span>
+                                    </h4>
+                                    <p>
+                                        <span>To Recover Your Password, Enter The E-Mail</span>
+                                    </p>
                                 </div>
-                            </router-link>
 
-                            <div class="form_head">
-                                <h4>
-                                    <span>RECOVER</span>
-                                    <span class="up_word">PASSWORD</span>
-                                </h4>
-                                <p>
-                                    <span>To Recover Your Password, Enter The E-Mail</span>
-                                </p>
-                            </div>
+                                <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
+                                    <div class="form-group">
+                                        <label for="">E-Mail:</label>
+                                        <input type="email" v-model.trim="formData.email"
+                                            placeholder="Hralryad@Gmail.Com">
+                                        <span class="error_validate">{{ errors[0] }}</span>
+                                    </div>
+                                </ValidationProvider>
 
-                            <div class="form-group">
-                                <label for="">E-Mail:</label>
-                                <input type="email" placeholder="Hralryad@Gmail.Com" required v-model="formData.email">
-                            </div>
+                                <div class="form-group">
+                                    <button type="submit" :disabled="invalid" class="main--btn">Send E-Mail</button>
+                                </div>
 
-                            <div class="form-group">
-                                <button type="submit" class="main--btn">Send E-Mail</button>
-                            </div>
+                            </form>
 
-                        </form>
+                        </ValidationObserver>
 
                     </div>
 
@@ -68,6 +76,9 @@ export default {
     data() {
         return {
             showPassword: false,
+
+            // form input data forget password  
+
             formData: {
                 email: "",
             }
@@ -83,12 +94,17 @@ export default {
         },
     },
     methods: {
+
+        // send form input data
+
         async sendData() {
 
             try {
                 await this.axios.post('forget-password', this.formData).then(res => {
 
                     this.formData.email = "";
+
+                    this.$refs.observer.reset();
 
                     this.$swal.fire({
                         position: 'center',

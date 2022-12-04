@@ -303,6 +303,18 @@ textarea:focus {
   box-shadow: none;
 }
 
+.error_validate {
+  display: block;
+  color: #ff4d00;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: no-drop;
+}
+
 @for $i from 1 through 10 {
   .mt-#{$i}0 {
     margin-top: #{$i}0px;

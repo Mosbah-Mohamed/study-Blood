@@ -9,29 +9,49 @@ Vue.config.productionTip = false;
 
 import("@/Scss/main.scss");
 
-// start Vee-validate
+// start Vee-validate plugin
 
 import {
-  ValidationObserver,
-  ValidationProvider,
-  extend,
-  localize,
+    ValidationObserver,
+    ValidationProvider,
+    extend,
+    localize,
 } from "vee-validate";
 import en from "vee-validate/dist/locale/en.json";
+import ar from "vee-validate/dist/locale/ar.json";
 import * as rules from "vee-validate/dist/rules";
 
 // Add a rule.
 Object.keys(rules).forEach((rule) => {
-  extend(rule, rules[rule]);
+    extend(rule, rules[rule]);
 });
 
+localize("ar", ar);
 localize("en", en);
 
+localize({
+    en: {
+        names: {
+            price_after_tax: "Price after tax",
+        },
+    },
+    ar: {
+        names: {
+            price_after_tax: "السعر يعد الضريبة",
+        },
+    },
+});
+
+// custom vee-validate methods validation
+
+require("./vee-validate");
+
 // Register it globally
+
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component("ValidationProvider", ValidationProvider);
 
-// end Vee-validate
+// end Vee-validate plugin
 
 // start bootstrap
 
@@ -47,10 +67,7 @@ Vue.use(IconsPlugin);
 
 // =================== start font awesome ===================
 
-/* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
-
-/* import font awesome icon component */
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -58,7 +75,9 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 
 library.add(fas, far, fab);
+
 /* add font awesome icon component */
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 // ================ end font awesome =============================
@@ -90,12 +109,6 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
 Vue.component("v-select", vSelect);
-
-// import Multiselect from "vue-multiselect";
-
-// Vue.component("multi-select", Multiselect);
-
-// import "vue-multiselect/dist/vue-multiselect.min.css";
 
 //  =================  end import MultiSelect ======================
 
@@ -139,13 +152,13 @@ Vue.use(VueTelInput);
 // end vue tel input
 
 new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App),
-  // start animate.css
-  mounted() {
-    AOS.init();
-  },
-  // start animate.css
+    router,
+    store,
+    i18n,
+    render: (h) => h(App),
+    // start animate.css
+    mounted() {
+        AOS.init();
+    },
+    // start animate.css
 }).$mount("#app");

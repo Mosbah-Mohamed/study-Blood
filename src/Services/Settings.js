@@ -6,26 +6,26 @@ import axios from "axios";
 
 const devInstance = createInstance("https://emary.azq1.com/StudyBlood/api/");
 const productionInstance = createInstance(
-  "https://emary.azq1.com/StudyBlood/api/"
+    "https://emary.azq1.com/StudyBlood/api/"
 );
 
 function createInstance(baseURL) {
-  return axios.create({
-    baseURL,
-    headers: {
-      "Content-Type": "application/json",
-      "Acess-Control-Allow-Origin": "*",
-      Accept: "application/json",
-      Authorization: ` Bearer ${localStorage.getItem("authToken")} `,
-      "Accept-Language": localStorage.getItem("lang"),
-    },
-  });
+    return axios.create({
+        baseURL,
+        headers: {
+            "Content-Type": "application/json",
+            "Acess-Control-Allow-Origin": "*",
+            Accept: "application/json",
+            Authorization: ` Bearer ${localStorage.getItem("authToken")} `,
+            "Accept-Language": localStorage.getItem("lang"),
+        },
+    });
 }
 
 export default {
-  install() {
-    Vue.prototype.axios = devInstance;
-  },
+    install() {
+        Vue.prototype.axios = devInstance;
+    },
 };
 
 // axios.defaults.withCredentials = true;
@@ -45,16 +45,16 @@ export default {
 // new token
 
 axios.interceptors.response.use(
-  (res) => {
-    return Promise.resolve(res);
-  },
-  (error) => {
-    console.log(error);
+    (res) => {
+        return Promise.resolve(res);
+    },
+    (error) => {
+        console.log(error);
 
-    if (error != null && error.response.data.status == 401) {
-      localStorage.clear();
-      window.location.href = "/login";
+        if (error != null && error.response.data.status == 400) {
+            localStorage.clear();
+            window.location.href = "/login";
+        }
+        return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
 );

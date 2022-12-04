@@ -10,36 +10,53 @@
                     </h3>
 
                     <p>{{ description }}</p>
-                    <form action="" @submit.prevent="sendData">
-                        <h4>SEND MESSAGE</h4>
-
-                        <div class="form-group">
-                            <label for="">Name:</label>
-                            <input type="text" required placeholder="Abdallah Hammad" v-model.trim="formData.name">
-                        </div>
 
 
+                    <ValidationObserver v-slot="{ invalid, handleSubmit }" ref='observer'>
 
-                        <div class="form-group">
-                            <label for="">E-Mail:</label>
-                            <input type="email" required placeholder="Hralryad@Gmail.Com" v-model.trim="formData.email">
-                        </div>
+                        <form action="" @submit.prevent="handleSubmit(sendData)">
+                            <h4>SEND MESSAGE</h4>
+
+                            <ValidationProvider name="name" rules="required|englishLettersOnly|min:3"
+                                v-slot="{ errors }">
+                                <div class="form-group">
+                                    <label for="">Name:</label>
+                                    <input type="text" v-model.trim="formData.name" placeholder="Type Name" required>
+                                    <span class="error_validate">{{ errors[0] }}</span>
+                                </div>
+                            </ValidationProvider>
+
+                            <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
+                                <div class="form-group">
+                                    <label for="">E-Mail:</label>
+                                    <input type="email" v-model.trim="formData.email" placeholder="Hralryad@Gmail.Com">
+                                    <span class="error_validate">{{ errors[0] }}</span>
+                                </div>
+                            </ValidationProvider>
+
+                            <label for="">Mobil:</label>
+                            <div class="form-group form_tel">
+                                <vue-tel-input :inputOptions="inputOptions" :dropdownOptions="dropdownOptions"
+                                    defaultCountry="sa" v-model.trim="formData.phone"></vue-tel-input>
+                            </div>
+
+                            <ValidationProvider name="Message" rules="required" v-slot="{ errors }">
+                                <div class="form-group">
+                                    <label for="">Message:</label>
+                                    <textarea type="text" v-model.trim="formData.message"
+                                        placeholder="Your Message"></textarea>
+                                    <span class="error_validate">{{ errors[0] }}</span>
+                                </div>
+                            </ValidationProvider>
+
+                            <div class="form-group">
+                                <button type="submit" :disabled="invalid" class="main--btn">Send</button>
+                            </div>
+                        </form>
+
+                    </ValidationObserver>
 
 
-                        <label for="">Mobil:</label>
-                        <div class="form-group form_tel">
-                            <vue-tel-input :inputOptions="inputOptions" :dropdownOptions="dropdownOptions"
-                                defaultCountry="sa" v-model.trim="formData.phone"></vue-tel-input>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Message:</label>
-                            <textarea required placeholder="Your Message" v-model.trim="formData.message"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="main--btn">Send</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -53,12 +70,16 @@ export default {
         return {
             description: '',
 
+            // form input data
+
             formData: {
                 name: "",
                 email: "",
                 phone: "",
                 message: ""
             },
+
+            // vue tel input options
 
             dropdownOptions: {
                 showDialCodeInSelection: true,
@@ -78,6 +99,9 @@ export default {
     },
 
     methods: {
+
+        //get data from api
+
         async getData() {
 
             await this.axios.get('page/contact-us').then(res => {
@@ -89,6 +113,8 @@ export default {
 
         },
 
+        // send form data method
+
         async sendData() {
 
             try {
@@ -98,6 +124,8 @@ export default {
                     this.formData.email = '';
                     this.formData.phone = '';
                     this.formData.message = '';
+
+                    this.$refs.observer.reset();
 
                     this.$swal.fire({
                         position: 'center',

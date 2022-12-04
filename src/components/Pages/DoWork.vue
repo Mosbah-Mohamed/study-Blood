@@ -61,15 +61,20 @@ export default {
 
     methods: {
 
+        // get do work section data from api
+
         async getData() {
 
             try {
+
                 await this.axios.get('page/home/knowhow').then(response => {
+
                     this.items = response.data.data.knowhow;
                     this.howTittle = response.data.data.how.title;
                     this.howDesc = response.data.data.how.description;
                     this.loading = true;
-                    console.log(response.data.data.knowhow)
+                    // console.log(response.data.data.knowhow)
+
                 }).catch(error => {
                     console.log(error.response.data.message)
                 })
