@@ -3,6 +3,8 @@
         <div class="container">
             <div class="row">
                 <b-tabs pills card vertical>
+
+
                     <b-tab title="PREVIOUS TIMED TESTS" active>
                         <b-card-text>
                             <div class="timed_test">
@@ -11,6 +13,7 @@
                                 </div>
 
                                 <div class="table-responsive">
+                                    <!-- style="display: block;max-height: 400px;" -->
                                     <table class="table  table-hover">
                                         <thead class="">
                                             <tr>
@@ -20,60 +23,34 @@
                                                 <th scope="col">Review /Contiune</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody v-if="previousExams.length">
 
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
+                                            <tr v-for="(exam, index) in previousExams" :key="('k' + index)">
+                                                <td>{{ exam.topic_name }}</td>
+                                                <td>{{ exam.details }}</td>
+                                                <td>{{ exam.status }}</td>
                                                 <td>
                                                     <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">Review</button>
+                                                        <button class="main--btn review">{{ exam.operation }}</button>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn continue">Contiune</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">Review</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">Review</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn continue">Contiune</button>
-                                                    </div>
+                                                    <!-- <div class="btns flex-center flex-column">
+                                                        <button class="main--btn continue">{{ exam.operation }}</button>
+                                                    </div> -->
                                                 </td>
                                             </tr>
 
                                         </tbody>
+
+                                        <tbody v-else-if="!previousExams">
+                                            <h3 class="text-center">no data found</h3>
+                                        </tbody>
+
+                                        <tbody v-else="!loading">
+                                            <div class="flex-center mt-5">
+                                                <b-spinner type="grow"></b-spinner>
+                                            </div>
+                                        </tbody>
+
                                     </table>
                                 </div>
 
@@ -83,60 +60,99 @@
                     <b-tab title="Edit Account">
                         <b-card-text>
                             <div class="box_info">
-                                <form action="">
-                                    <h4>
-                                        <span>Personal</span>
-                                        <span class="word"> Information</span>
-                                    </h4>
-                                    <div class="form-group">
-                                        <label for="">Name:</label>
-                                        <input v-model.trim="name" type="text" placeholder="Name Here">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">E-Mail:</label>
-                                        <input v-model.trim="email" type="text" placeholder="Hralryad@Gmail.Com">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Mobil:</label>
-                                        <input v-model.trim="mobil" type="text" placeholder="54 1234567">
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" :class="{ 'disabled': !name || !email || !mobil }"
-                                            class="main--btn">Save</button>
-                                    </div>
-                                </form>
+
+                                <ValidationObserver v-slot="{ invalid, handleSubmit }" ref='observer'>
+
+                                    <form action="" @submit.prevent="handleSubmit(sendData)">
+                                        <h4>
+                                            <span>Personal</span>
+                                            <span class="word"> Information</span>
+                                        </h4>
+
+                                        <ValidationProvider name="name" rules="required|englishLettersOnly|min:3"
+                                            v-slot="{ errors }">
+                                            <div class="form-group">
+                                                <label for="">Name:</label>
+                                                <input type="text" v-model="formData.name" placeholder="Type Name"
+                                                    required>
+                                                <span class="error_validate">{{ errors[0] }}</span>
+                                            </div>
+                                        </ValidationProvider>
+
+
+                                        <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
+                                            <div class="form-group">
+                                                <label for="">E-Mail:</label>
+                                                <input type="email" v-model="formData.email"
+                                                    placeholder="Hralryad@Gmail.Com">
+                                                <span class="error_validate">{{ errors[0] }}</span>
+                                            </div>
+                                        </ValidationProvider>
+
+                                        <div class="form-group">
+                                            <label for="">Mobil:</label>
+                                            <input v-model.trim="formData.phone" type="text" placeholder="54 1234567">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" :disabled="invalid"
+                                                :class="{ 'disabled': !formData.name || !formData.email || !formData.phone }"
+                                                class="main--btn">Save</button>
+                                        </div>
+                                    </form>
+
+                                </ValidationObserver>
+
+
                             </div>
                         </b-card-text>
                     </b-tab>
                     <b-tab title="Edit Password">
                         <b-card-text>
                             <div class="box_info">
-                                <form action="">
-                                    <h4>
-                                        <span>Edit </span>
-                                        <span class="word"> Password</span>
-                                    </h4>
-                                    <div class="form-group position-relative">
-                                        <label for="">Current Password :</label>
-                                        <input v-model.trim="currentPassword"
-                                            :type="[showPassword ? 'text' : 'password']" placeholder="*********">
-                                        <span class="eye" @click="showPassword = !showPassword">
-                                            <font-awesome-icon :icon="icon" />
-                                        </span>
-                                    </div>
-                                    <div class="form-group position-relative">
-                                        <label for="">New Password :</label>
-                                        <input v-model.trim="NewPassword"
-                                            :type="[showConfirmPassword ? 'text' : 'password']" placeholder="*********">
-                                        <span class="eye" @click="showConfirmPassword = !showConfirmPassword">
-                                            <font-awesome-icon :icon="icon2" />
-                                        </span>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" class="main--btn"
-                                            :class="{ 'disabled': !currentPassword || !NewPassword }">Save</button>
-                                    </div>
-                                </form>
+
+                                <ValidationObserver v-slot="{ invalid, handleSubmit }" ref='observer'>
+
+                                    <form action="" @submit.prevent="handleSubmit(updatePass)">
+                                        <h4>
+                                            <span>Edit </span>
+                                            <span class="word"> Password</span>
+                                        </h4>
+
+                                        <ValidationProvider name="password" rules="required|min:8" v-slot="{ errors }">
+                                            <div class="form-group position-relative">
+                                                <label for="">Current Password :</label>
+                                                <input :type="[showPassword ? 'text' : 'password']"
+                                                    placeholder="********" required
+                                                    v-model="formData2.current_password">
+                                                <span class="eye" @click="showPassword = !showPassword">
+                                                    <font-awesome-icon :icon="icon" />
+                                                </span>
+                                            </div>
+                                            <span class="error_validate">{{ errors[0] }}</span>
+                                        </ValidationProvider>
+
+                                        <ValidationProvider name="password" rules="required|min:8" v-slot="{ errors }">
+                                            <div class="form-group position-relative">
+                                                <label for="">New Password :</label>
+                                                <input :type="[showConfirmPassword ? 'text' : 'password']"
+                                                    placeholder="********" required v-model="formData2.new_password">
+                                                <span class="eye" @click="(showConfirmPassword = !showConfirmPassword)">
+                                                    <font-awesome-icon :icon="icon2" />
+                                                </span>
+                                            </div>
+                                            <span class="error_validate">{{ errors[0] }}</span>
+                                        </ValidationProvider>
+
+                                        <div class="form-group">
+                                            <button type="submit" :disabled="invalid" class="main--btn"
+                                                :class="{ 'disabled': !formData2.current_password || !formData2.new_password }">Save</button>
+                                        </div>
+                                    </form>
+
+
+                                </ValidationObserver>
+
+
                             </div>
                         </b-card-text>
                     </b-tab>
@@ -151,14 +167,29 @@ export default {
     name: "profile",
     data() {
         return {
+
+            userName: localStorage.getItem('userName'),
+
+            loading: false,
+
             showPassword: false,
             showConfirmPassword: false,
 
-            name: "",
-            email: "",
-            mobil: "",
-            currentPassword: "",
-            NewPassword: ""
+            formData2: {
+                current_password: "",
+                new_password: "",
+            },
+
+            // form input data
+
+            formData: {
+                name: "",
+                email: "",
+                phone: ""
+            },
+
+
+            previousExams: []
         }
     },
     computed: {
@@ -179,6 +210,130 @@ export default {
             }
         },
     },
+
+
+    mounted() {
+        window.scrollTo(0, 0);
+        this.getData()
+    },
+
+    methods: {
+        async getData() {
+            try {
+
+                this.axios.get('profile/previous-exams').then(response => {
+                    this.loading = true;
+                    this.previousExams = response.data.data;
+                    console.log('profile=>', response.data.data)
+
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        // update profile
+
+        async sendData() {
+
+            try {
+                await this.axios.post('profile/update-profile', this.formData).then(response => {
+
+                    this.formData.name = "";
+                    this.formData.email = "";
+                    this.formData.phone = "";
+
+
+                    this.$refs.observer.reset();
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    localStorage.setItem("authToken", response.data.data.token)
+                    localStorage.setItem("userName", response.data.data.name)
+                    localStorage.setItem("userEmail", response.data.data.email)
+
+                    window.location.reload()
+
+                    this.$router.push('/');
+
+
+                }).catch(error => {
+                    console.log(error.response.data.message);
+
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        confirmButtonColor: '#ff7400',
+                        timer: 3000
+                    })
+
+                })
+            } catch (error) {
+                console.log('try catch =>', error);
+            }
+
+        },
+
+        // update password
+
+        async updatePass() {
+
+            try {
+                await this.axios.post('profile/update-password', this.formData2).then(response => {
+
+                    this.loading = true;
+
+                    this.formData2.current_password = "";
+                    this.formData2.new_password = "";
+
+
+                    this.$refs.observer.reset();
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    localStorage.setItem("authToken", response.data.data.token)
+                    localStorage.setItem("userName", response.data.data.name)
+                    localStorage.setItem("userEmail", response.data.data.email)
+
+                    this.$router.push('/');
+
+
+                }).catch(error => {
+                    console.log(error.response.data.message);
+
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        confirmButtonColor: '#ff7400',
+                        timer: 3000
+                    })
+
+                })
+            } catch (error) {
+                console.log('try catch =>', error);
+            }
+
+        },
+    }
 }
 </script>
 

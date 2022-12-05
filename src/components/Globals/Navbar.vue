@@ -47,16 +47,20 @@
 
                 <div class="col-lg-3 col-6 hide_sm_md" data-aos="fade-left">
                     <div class="navbar__btns flex-center">
-                        <router-link to="/signup">
+                        <router-link to="/signup" v-if="!authToken">
                             <button class="navbar__btns--sign main--btn">Sign Up</button>
                         </router-link>
 
-                        <router-link to="/login">
+                        <router-link to="/login" v-if="!authToken">
                             <button class="navbar__btns--login second--btn">Log In</button>
                         </router-link>
 
-                        <router-link to="/profile">
-                            <button class="navbar__btns--sign profile--btn main--btn d-none">My Profile</button>
+                        <router-link to="/profile" v-if="authToken">
+                            <button class="navbar__btns--sign profile--btn main--btn ">My Profile</button>
+                        </router-link>
+
+                        <router-link to="/login" v-if="authToken">
+                            <button class="navbar__btns--login second--btn" @click="logOut()">Log out</button>
                         </router-link>
                     </div>
                 </div>
@@ -128,7 +132,16 @@ export default {
 
     data() {
         return {
-            
+            authToken: localStorage.getItem('authToken')
+
+        }
+    },
+
+    methods: {
+        logOut() {
+            localStorage.clear();
+            window.location.reload();
+            this.$router.push("/");
         }
     }
 }

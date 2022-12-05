@@ -27,7 +27,8 @@
     "vue-select": "^3.20.0",
     "vue-sweetalert2": "^5.0.5",
     "vue-tel-input": "^5.12.0",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

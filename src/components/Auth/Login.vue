@@ -143,11 +143,14 @@ export default {
                         timer: 3000
                     });
 
-                    console.log(res.data.data.token)
+                    // console.log(res.data.data.token)
 
-                    localStorage.setItem('authToken', res.data.data.token)
+                    window.localStorage.setItem("authToken", res.data.data.token)
+                    window.localStorage.setItem("userName", res.data.data.name)
+                    window.localStorage.setItem("userEmail", res.data.data.email)
+                    // window.localStorage.setItem("userPass", res.data.data.password)
 
-                    // this.$router.push('/');
+                    this.$router.push('/');
 
 
                 }).catch(error => {

@@ -169,7 +169,11 @@ export default {
                         timer: 3000
                     });
 
-                    // this.$router.push('/');
+                    localStorage.setItem("authToken", res.data.data.token)
+                    localStorage.setItem("userName", res.data.data.name)
+                    localStorage.setItem("userEmail", res.data.data.email)
+
+                    this.$router.push('/');
 
 
                 }).catch(error => {

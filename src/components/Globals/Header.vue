@@ -44,7 +44,7 @@ export default {
                 await this.axios.get('page/home/slider').then(response => {
                     this.loading = true;
                     this.items = response.data.data;
-                    console.log(response.data.data)
+                    // console.log(response.data.data)
                 }).catch(error => {
                     console.log(error.response.data.msg)
                 })

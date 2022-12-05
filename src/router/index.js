@@ -44,7 +44,7 @@ const routes = [
             import(
                 /* webpackChunkName: "profile" */ "@/views/PagesView/ProfileView.vue"
             ),
-        // meta: { requiresAuth: true },
+        meta: { requiresAuth: true },
     },
     {
         path: "/topic/:id",
@@ -53,6 +53,7 @@ const routes = [
             import(
                 /* webpackChunkName: "mcqRevision" */ "@/views/PagesView/McqRevisionView.vue"
             ),
+        meta: { requiresAuth: true },
     },
     {
         path: "/resources",
@@ -61,6 +62,7 @@ const routes = [
             import(
                 /* webpackChunkName: "Resources" */ "@/views/PagesView/ResourcesView.vue"
             ),
+        meta: { requiresAuth: true },
     },
     {
         path: "/contact",
@@ -85,6 +87,7 @@ const routes = [
             import(
                 /* webpackChunkName: "correctExams" */ "@/views/PagesView/CorrectExamsView.vue"
             ),
+        meta: { requiresAuth: true },
     },
     {
         path: "/score",
@@ -101,6 +104,7 @@ const routes = [
             import(
                 /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"
             ),
+        meta: { requiresAuth: true },
     },
     {
         path: "/forgetPassword",
@@ -133,7 +137,7 @@ const routes = [
             import(
                 /* webpackChunkName: "login" */ "@/views/GlobalView/LoginView.vue"
             ),
-        // meta: { disallowAuthed: true },
+        meta: { disallowAuthed: true },
     },
     {
         path: "/signup",
@@ -142,6 +146,7 @@ const routes = [
             import(
                 /* webpackChunkName: "signup" */ "@/views/GlobalView/SignUpView.vue"
             ),
+        meta: { disallowAuthed: true },
     },
     {
         path: "/:catchAll(.*)",
@@ -156,36 +161,36 @@ const router = new VueRouter({
     routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   // console.log(to);
+router.beforeEach((to, from, next) => {
+    // console.log(to);
 
-//   let AllTitle = `${process.env.VUE_APP_TITLE} | ${to.name}`;
+    let AllTitle = `${process.env.VUE_APP_TITLE} | ${to.name}`;
 
-//   if (to.params.pageTitle) {
-//     AllTitle += ` | ${to.params.pageTitle}`;
-//   }
+    if (to.params.pageTitle) {
+        AllTitle += ` | ${to.params.pageTitle}`;
+    }
 
-//   document.title = AllTitle;
+    document.title = AllTitle;
 
-//   // for not enter pages if else user login first
+    // for not enter pages if else user login first
 
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (localStorage.getItem("authToken")) {
-//       next();
-//     } else {
-//       next("/");
-//     }
-//   } else {
-//     next();
-//   }
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (localStorage.getItem("authToken")) {
+            next();
+        } else {
+            next("/login");
+        }
+    } else {
+        next();
+    }
 
-//   // for disallow user from back to login page after login
+    // for disallow user from back to login page after login
 
-//   if (to.meta.disallowAuthed && localStorage.getItem("authToken")) {
-//     return next({ path: "/" });
-//   }
+    if (to.meta.disallowAuthed && localStorage.getItem("authToken")) {
+        return next({ path: "/" });
+    }
 
-//   // next();
-// });
+    // next();
+});
 
 export default router;
