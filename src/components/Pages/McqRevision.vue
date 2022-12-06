@@ -21,7 +21,8 @@
 
                                             <div class="question__tab--categories">
 
-                                                <p>Filter Your Questions Below (520 Questions Found):</p>
+                                                <p>Filter Your Questions Below ({{ questions_countAll }}) Questions
+                                                    Found):</p>
 
                                                 <div class="info_checkboxes">
 
@@ -29,8 +30,10 @@
 
                                                     <div class="collapse_with_input"
                                                         v-for="(category, index) in categoriesGet">
+
                                                         <label class="containercheck" v-b-toggle="'collapse-' + index">
                                                             <input @click.stop type="checkbox" :key="('l' + index)"
+                                                                :disabled="(!is_subscribed && category.is_demo === 0)"
                                                                 v-model="selectedBoxes" :value="category.id">
                                                             <span class="checkmark"></span>
                                                             <div class="words">
@@ -49,6 +52,7 @@
                                                                 <label class="containercheck"
                                                                     v-for="(sub_category, index) in category.sub_categories">
                                                                     <input @click.stop type="checkbox"
+                                                                        :disabled="(!is_subscribed && sub_category.is_demo === 0)"
                                                                         :key="'c' + index" v-model="selectedBoxes"
                                                                         :value="sub_category.id" name="sub_category">
 
@@ -149,6 +153,7 @@
                                                     </v-select>
                                                 </div>
 
+                                                <!-- <router-link :to="`exam/perform/${}`"> -->
                                                 <button class="main--btn" @click="sendData()">
 
                                                     <span>Start The Questions</span>
@@ -157,11 +162,23 @@
                                                     </span>
 
                                                 </button>
+                                                <!-- </router-link> -->
 
                                             </div>
 
                                         </div>
                                         <div class="col-lg-4 col-12">
+
+                                            <div class="question__tab--question top_box" v-if="!is_subscribed">
+                                                <h4 class="main_head">Running In Demo Mode!</h4>
+                                                <p>
+                                                    ertain functions are disabled (e.g. question selection and
+                                                    performance data is given for an example user
+
+                                                </p>
+                                                <button class="main--btn">Sign Up For Access To The Entire
+                                                    Resource</button>
+                                            </div>
 
                                             <div class="question__tab--question">
                                                 <h3 class="main_head">Questions</h3>
@@ -179,7 +196,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Time Test" @click="(exam_type = 'time')">
+                            <b-tab title="Time Test" @click="(exam_type = 'time')" :disabled="!is_subscribed">
 
                                 <div class="question__tab">
 
@@ -406,7 +423,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Mock Exams" @click="(exam_type = 'mock')">
+                            <b-tab title="Mock Exams" @click="(exam_type = 'mock')" :disabled="!is_subscribed">
 
                                 <div class="question__tab tab_three">
 
@@ -545,7 +562,13 @@ export default {
             duration: '',
             questions_count: '',
 
-            previous_exams: []
+            previous_exams: [],
+
+            is_subscribed: '',
+
+            questions_countAll: ''
+
+
 
         }
     },
@@ -563,13 +586,6 @@ export default {
 
     methods: {
 
-        toggleType(e) {
-            // this.exam_type = e.target.value;
-
-            console.log(e.target)
-
-        },
-
 
         async getData() {
             try {
@@ -579,9 +595,11 @@ export default {
                     this.topic_name = response.data.data.topic.name;
                     this.categoriesGet = response.data.data.categories;
                     this.question_selection = response.data.data.question_selection;
+                    this.is_subscribed = response.data.data.topic.is_subscribed;
+                    this.questions_countAll = response.data.data.questions_count;
                     // this.exam_type = response.data.data.exam_type;
 
-                    console.log(response.data.data.categories)
+                    // console.log(response.data.data.categories)
                 }).catch(error => {
                     console.log(error.response.data.message)
                 })
@@ -616,7 +634,9 @@ export default {
             try {
 
                 this.axios.post('exam/start', { mode: this.val_select.key, categories: this.selectedBoxes, topic_id: this.$route.params.id, exam_type: this.exam_type }).then(response => {
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
+
+                    this.$router.push(`/exam/perform/${response.data.data.exam_reference}`)
 
                     this.$swal.fire({
                         position: 'center',
@@ -646,7 +666,7 @@ export default {
             try {
 
                 this.axios.post('exam/start', { topic_id: this.$route.params.id, exam_type: this.exam_type }).then(response => {
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
 
                     this.$swal.fire({
                         position: 'center',
@@ -656,6 +676,9 @@ export default {
                         showConfirmButton: false,
                         timer: 3000
                     })
+
+                    this.$router.push(`/exam/perform/${response.data.data.exam_reference}`)
+
                 }).catch(error => {
                     this.$swal.fire({
                         position: 'center',
@@ -676,7 +699,7 @@ export default {
             try {
 
                 this.axios.post('exam/start', { topic_id: this.$route.params.id, categories: this.selectedBoxesTime, questions_count: this.questions_count, duration: this.duration, exam_type: this.exam_type }).then(response => {
-                    console.log(response.data.message)
+                    // console.log(response.data.message)
 
                     this.$swal.fire({
                         position: 'center',
@@ -685,7 +708,11 @@ export default {
                         text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
+
                     })
+
+                    this.$router.push(`/exam/perform/${response.data.data.exam_reference}`)
+
                 }).catch(error => {
                     this.$swal.fire({
                         position: 'center',
@@ -706,5 +733,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .nav-link.disabled {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+}
 </style>

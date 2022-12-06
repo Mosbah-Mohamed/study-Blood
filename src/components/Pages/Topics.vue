@@ -13,20 +13,32 @@
                             <h3>{{ topic.name }}</h3>
                             <p class="text-ellipsis-2">{{ topic.description }}</p>
                             <div class="box__btns">
-                                <router-link v-if="(topic.is_subscribed == false)" :to="`/packages/${topic.id}`">
+
+                                <!-- v-if="(topic.is_subscribed == false)"  -->
+                                <!-- <router-link :to="`/subscribe/topic/${topic.id}`">
+                                    <button class="main--btn">Subscribe Package</button>
+                                </router-link> -->
+
+                                <router-link v-if="!authToken" to="/login">
                                     <button class="main--btn">Subscribe Package</button>
                                 </router-link>
 
-                                <router-link v-else :to="`/packages/${topic.id}`">
+                                <router-link v-if="(authToken && topic.is_subscribed == false)"
+                                    :to="`/subscribe/topic/${topic.id}`">
+                                    <button class="main--btn">Subscribe Package</button>
+                                </router-link>
+
+                                <router-link v-if="(authToken && topic.is_subscribed == true)"
+                                    :to="`/topic/${topic.id}`">
                                     <button class="main--btn">go to Package</button>
                                 </router-link>
 
 
-
-                                <router-link v-if="(topic.is_subscribed == false)" :to="`/topic/${topic.id}`">
+                                <router-link v-if="(!authToken || (authToken && topic.is_subscribed == false))"
+                                    :to="`/topic/${topic.id}`">
                                     <button class="second--btn">Take A demo</button>
                                 </router-link>
-                                <!-- <button class="second--btn" >Take A demo</button> -->
+
                             </div>
                         </div>
                     </div>
@@ -47,6 +59,8 @@ export default {
 
     data() {
         return {
+
+            authToken: localStorage.getItem('authToken'),
 
             loading: false,
 

@@ -30,7 +30,7 @@ const routes = [
             ),
     },
     {
-        path: "/packages/:id",
+        path: "/subscribe/topic/:id",
         name: "packages",
         component: () =>
             import(
@@ -53,7 +53,7 @@ const routes = [
             import(
                 /* webpackChunkName: "mcqRevision" */ "@/views/PagesView/McqRevisionView.vue"
             ),
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/resources",
@@ -98,7 +98,7 @@ const routes = [
             ),
     },
     {
-        path: "/exams",
+        path: "/exam/perform/:id",
         name: "exams",
         component: () =>
             import(

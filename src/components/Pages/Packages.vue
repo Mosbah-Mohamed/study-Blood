@@ -188,7 +188,7 @@ export default {
         async getData() {
             try {
 
-                this.axios.get('subscribe/topic/5').then(response => {
+                this.axios.get(`subscribe/topic/${this.$route.params.id}`).then(response => {
                     this.loading = true;
                     this.structureTitle = response.data.data.structure.title;
                     this.topicDescription = response.data.data.topic.description;

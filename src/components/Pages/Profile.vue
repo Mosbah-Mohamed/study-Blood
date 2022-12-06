@@ -5,6 +5,8 @@
                 <b-tabs pills card vertical>
 
 
+                    <!-- time test tab -->
+
                     <b-tab title="PREVIOUS TIMED TESTS" active>
                         <b-card-text>
                             <div class="timed_test">
@@ -57,6 +59,124 @@
                             </div>
                         </b-card-text>
                     </b-tab>
+
+                    <!-- time test tab -->
+
+                    <!-- questions tab -->
+
+                    <b-tab title="Previous Questions TESTS" active>
+                        <b-card-text>
+                            <div class="timed_test">
+                                <div class="head">
+                                    <span>Previous Questions TESTS</span>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <!-- style="display: block;max-height: 400px;" -->
+                                    <table class="table  table-hover">
+                                        <thead class="">
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Number Of Question</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Review /Contiune</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="previousExams.length">
+
+                                            <tr v-for="(exam, index) in previousExamsQuestions" :key="('k' + index)">
+                                                <td>{{ exam.topic_name }}</td>
+                                                <td>{{ exam.details }}</td>
+                                                <td>{{ exam.status }}</td>
+                                                <td>
+                                                    <div class="btns flex-center flex-column">
+                                                        <button class="main--btn review">{{ exam.operation }}</button>
+                                                    </div>
+                                                    <!-- <div class="btns flex-center flex-column">
+                                                        <button class="main--btn continue">{{ exam.operation }}</button>
+                                                    </div> -->
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                        <tbody v-else-if="!previousExamsQuestions">
+                                            <h3 class="text-center">no data found</h3>
+                                        </tbody>
+
+                                        <tbody v-else="!loading">
+                                            <div class="flex-center mt-5">
+                                                <b-spinner type="grow"></b-spinner>
+                                            </div>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </b-card-text>
+                    </b-tab>
+
+                    <!-- questions tab -->
+
+                    <!-- mock tab -->
+
+                    <b-tab title="Previous Mock TESTS" active>
+                        <b-card-text>
+                            <div class="timed_test">
+                                <div class="head">
+                                    <span>Previous Mock TESTS</span>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <!-- style="display: block;max-height: 400px;" -->
+                                    <table class="table  table-hover">
+                                        <thead class="">
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Number Of Question</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Review /Contiune</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="previousExams.length">
+
+                                            <tr v-for="(exam, index) in previousExamsMock" :key="('k' + index)">
+                                                <td>{{ exam.topic_name }}</td>
+                                                <td>{{ exam.details }}</td>
+                                                <td>{{ exam.status }}</td>
+                                                <td>
+                                                    <div class="btns flex-center flex-column">
+                                                        <button class="main--btn review">{{ exam.operation }}</button>
+                                                    </div>
+                                                    <!-- <div class="btns flex-center flex-column">
+                                                        <button class="main--btn continue">{{ exam.operation }}</button>
+                                                    </div> -->
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                        <tbody v-else-if="!previousExamsMock">
+                                            <h3 class="text-center">no data found</h3>
+                                        </tbody>
+
+                                        <tbody v-else="!loading">
+                                            <div class="flex-center mt-5">
+                                                <b-spinner type="grow"></b-spinner>
+                                            </div>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </b-card-text>
+                    </b-tab>
+
+                    <!-- mock tab -->
+
+                    <!-- edit account tab -->
                     <b-tab title="Edit Account">
                         <b-card-text>
                             <div class="box_info">
@@ -106,6 +226,10 @@
                             </div>
                         </b-card-text>
                     </b-tab>
+                    <!-- edit account tab -->
+
+                    <!-- edit password tab -->
+
                     <b-tab title="Edit Password">
                         <b-card-text>
                             <div class="box_info">
@@ -156,6 +280,9 @@
                             </div>
                         </b-card-text>
                     </b-tab>
+                    <!-- edit password tab -->
+
+
                 </b-tabs>
             </div>
         </div>
@@ -189,7 +316,10 @@ export default {
             },
 
 
-            previousExams: []
+            previousExams: [],
+
+            previousExamsQuestions: [],
+            previousExamsMock: []
         }
     },
     computed: {
@@ -214,16 +344,58 @@ export default {
 
     mounted() {
         window.scrollTo(0, 0);
-        this.getData()
+        this.getData();
+        this.getDataQuestion();
+        this.getDataMock()
     },
 
     methods: {
+
+        // get previous data timed test
         async getData() {
             try {
 
-                this.axios.get('profile/previous-exams').then(response => {
+                this.axios.get('profile/previous-time').then(response => {
                     this.loading = true;
                     this.previousExams = response.data.data;
+                    console.log('profile=>', response.data.data)
+
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        // get previous data questions test
+
+        async getDataQuestion() {
+            try {
+
+                this.axios.get('profile/previous-question').then(response => {
+                    this.loading = true;
+                    this.previousExamsQuestions = response.data.data;
+                    console.log('profile=>', response.data.data)
+
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        // get previous data mock test
+
+        async getDataMock() {
+            try {
+
+                this.axios.get('profile/previous-mock').then(response => {
+                    this.loading = true;
+                    this.previousExamsMock = response.data.data;
                     console.log('profile=>', response.data.data)
 
                 }).catch(error => {
