@@ -21,12 +21,14 @@
 
                                             <div class="head_top">
 
-                                                <button class="previous flex-center">
+                                                <button class="previous flex-center" @click="goPrevious()"
+                                                    :class="{ 'hidden': question_previous_id == null }">
                                                     <font-awesome-icon icon="fa-solid fa-chevron-left" />
                                                     <span>Previous</span>
                                                 </button>
                                                 <span class="hide_sm">{{ numQuestion }}</span>
-                                                <button class="previous flex-center next">
+                                                <button class="previous flex-center next" @click="goNext()"
+                                                    :class="{ 'hidden': question_next_id == null }">
                                                     <span>Next</span>
                                                     <font-awesome-icon icon="fa-solid fa-chevron-right" />
                                                 </button>
@@ -103,39 +105,13 @@
                                                     </b-progress-bar>
                                                 </b-progress>
 
-                                                <!-- <b-progress max="100">
-                                                    <b-progress-bar value="50">
-                                                        <div class="progress_anser">
-                                                            <span>Answer 5</span>
-                                                            <span>50%</span>
-                                                        </div>
-                                                    </b-progress-bar>
-                                                </b-progress>
-
-                                                <b-progress max="100">
-                                                    <b-progress-bar value="50">
-                                                        <div class="progress_anser">
-                                                            <span>Answer 5</span>
-                                                            <span>50%</span>
-                                                        </div>
-                                                    </b-progress-bar>
-                                                </b-progress>
-
-                                                <b-progress max="100">
-                                                    <b-progress-bar value="50">
-                                                        <div class="progress_anser">
-                                                            <span>Answer 5</span>
-                                                            <span>50%</span>
-                                                        </div>
-                                                    </b-progress-bar>
-                                                </b-progress> -->
                                             </div>
 
 
                                             <label v-if="!is_answered" class="containercheck"
                                                 v-for="(answer, index) in All_Answers" :key="('l' + index)">
-                                                <input type="radio" name="answer" :value="answer.id"
-                                                    v-model="answerValue">
+                                                <input :disabled="(is_finished == 1)" type="radio" name="answer"
+                                                    :value="answer.id" v-model="answerValue">
                                                 <span class="checkmark"></span>
                                                 <div class="words">
                                                     <span>{{ answer.content }}</span>
@@ -143,12 +119,17 @@
                                                 <span class="red"></span>
                                             </label>
 
-                                            <button class="main--btn answer_submit" @click="submitExamAnswer()"
-                                                v-if="!is_answered">
+                                            <div class="all_btns_exam flex-between" :class="{ 'hidden': is_finished }">
+                                                <button class="main--btn answer_submit" @click="submitExamAnswer()"
+                                                    v-if="!is_answered">
 
-                                                <span>Submit Answer</span>
+                                                    <span>Submit Answer</span>
 
-                                            </button>
+                                                </button>
+
+                                                <button class="main--btn answer_submit d-none" @click="endExam()"
+                                                    :class="{ 'showEnd': question_next_id == null }">End Exam</button>
+                                            </div>
 
                                         </div>
 
@@ -347,7 +328,7 @@
                                     </tr>
                                 </thead>
                                 <tbody v-for="(question, index) in scoreQuestions" :key="('g' + index)">
-                                    <tr>
+                                    <tr @click="goToQuestion(question.id)" style="cursor:pointer">
                                         <td class="quest_number">{{ index + 1 }}</td>
                                         <td>
                                             <div class="correct" v-if="(question.is_correct == 1)">
@@ -361,6 +342,7 @@
                                             </div>
                                         </td>
                                     </tr>
+
                                     <!-- <tr>
                                         <td class="quest_number">2</td>
                                         <td>
@@ -441,18 +423,61 @@ export default {
             value: 100,
             dataValue: "",
 
+            // next navigation
+
+            question_next_id: '',
+            question_previous_id: '',
+
+            // is_ended
+
+            is_finished: ''
 
 
         }
     },
 
     mounted() {
+
         window.scrollTo(0, 0);
-        this.getData();
+        // this.getData();
+        this.get_is_ended();
+        // this.goToQuestion(this.$route.params.question_id)
+        // this.goToQuestion('');
+
     },
 
 
     methods: {
+
+        async get_is_ended() {
+            try {
+
+                this.axios.get(`exam/status/${this.$route.params.id}`).then(response => {
+                    this.is_finished = response.data.data.is_ended;
+
+                    if (this.is_finished == 1) {
+                        console.log(this.is_finished)
+                        console.log("goToQuestion")
+                        this.goToQuestion(this.$route.params.question_id)
+
+
+                    } else {
+                        console.log("get data")
+                        console.log(this.is_finished)
+                        this.getData();
+                    }
+
+                }).catch(error => {
+
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+
 
         async getData() {
             try {
@@ -462,6 +487,8 @@ export default {
 
                     this.questionContent = response.data.data.question.content;
                     this.question_id = response.data.data.question.id;
+                    this.question_next_id = response.data.data.next_question_id;
+                    this.question_previous_id = response.data.data.previous_question_id;
 
                     this.All_Answers = response.data.data.question.answers;
 
@@ -478,6 +505,9 @@ export default {
 
                     // console.log(response.data.data.categories)
                 }).catch(error => {
+
+                    // this.$router.push('/')
+
                     console.log(error.response.data.message)
                 })
 
@@ -499,6 +529,10 @@ export default {
                     this.links = response.data.data.question.links;
                     this.hint = response.data.data.question.hint;
                     this.is_answered = response.data.data.is_answered;
+
+                    // nav
+                    this.question_next_id = response.data.data.next_question_id;
+                    this.question_previous_id = response.data.data.previous_question_id;
 
                 }).catch(error => {
                     console.log(error.response.data.message)
@@ -523,7 +557,165 @@ export default {
             }
 
             return ''
+        },
+
+
+        async goNext() {
+            try {
+
+                this.axios.get(`exam/perform/${this.$route.params.id}/${this.question_next_id}`).then(response => {
+                    this.loading = true;
+
+                    this.questionContent = response.data.data.question.content;
+                    this.question_id = response.data.data.question.id;
+
+                    // nav
+
+                    this.question_next_id = response.data.data.next_question_id;
+                    this.question_previous_id = response.data.data.previous_question_id;
+
+                    this.All_Answers = response.data.data.question.answers;
+
+                    this.score_percentage = response.data.data.score.percentage;
+                    this.scoreQuestions = response.data.data.score.questions;
+
+                    this.references_table = response.data.data.question.references;
+
+                    this.is_answered = response.data.data.is_answered;
+
+                    this.numQuestion = response.data.message;
+
+                    this.links = response.data.data.question.links;
+                    this.hint = response.data.data.question.hint;
+
+                    // this.exam_type = response.data.data.exam_type;
+
+                    // console.log(response.data.data.categories)
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async goPrevious() {
+            try {
+
+                this.axios.get(`exam/perform/${this.$route.params.id}/${this.question_previous_id}`).then(response => {
+                    this.loading = true;
+
+                    this.questionContent = response.data.data.question.content;
+                    this.question_id = response.data.data.question.id;
+
+
+                    // nav
+
+                    this.question_next_id = response.data.data.next_question_id;
+                    this.question_previous_id = response.data.data.previous_question_id;
+
+                    this.All_Answers = response.data.data.question.answers;
+
+                    this.score_percentage = response.data.data.score.percentage;
+                    this.scoreQuestions = response.data.data.score.questions;
+
+                    this.references_table = response.data.data.question.references;
+
+                    this.is_answered = response.data.data.is_answered;
+
+                    this.numQuestion = response.data.message;
+
+                    this.links = response.data.data.question.links;
+                    this.hint = response.data.data.question.hint;
+
+                    // this.exam_type = response.data.data.exam_type;
+
+                    // console.log(response.data.data.categories)
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async goToQuestion(question_id) {
+            try {
+
+                this.axios.get(`exam/perform/${this.$route.params.id}/${question_id}`).then(response => {
+                    this.loading = true;
+
+                    this.questionContent = response.data.data.question.content;
+                    this.question_id = response.data.data.question.id;
+
+                    // nav
+
+                    this.question_next_id = response.data.data.next_question_id;
+                    this.question_previous_id = response.data.data.previous_question_id;
+
+                    this.All_Answers = response.data.data.question.answers;
+
+                    this.score_percentage = response.data.data.score.percentage;
+                    this.scoreQuestions = response.data.data.score.questions;
+
+                    this.references_table = response.data.data.question.references;
+
+                    this.is_answered = response.data.data.is_answered;
+
+                    this.numQuestion = response.data.message;
+
+                    this.links = response.data.data.question.links;
+                    this.hint = response.data.data.question.hint;
+
+                    // this.exam_type = response.data.data.exam_type;
+
+                    // console.log(response.data.data.categories)
+                }).catch(error => {
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        async endExam() {
+            try {
+
+                this.axios.post('exam/end', { exam_id: `${this.$route.params.id}` }).then(response => {
+                    this.loading = true;
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Message sent Successfully',
+                        text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    this.$router.push({ name: 'score', params: this.$route.params.id });
+
+                }).catch(error => {
+                    console.log(error.response.data.message)
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
         }
+
 
     },
 
@@ -532,6 +724,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.showEnd {
+    display: block !important;
+}
+
+.hidden {
+    display: none
+}
+
 .top_progress {
 
     position: absolute;
@@ -558,6 +758,7 @@ export default {
 
 .red-back {
     background-color: red !important;
+    border-left: 8px solid red !important;
     opacity: 0.5;
 }
 

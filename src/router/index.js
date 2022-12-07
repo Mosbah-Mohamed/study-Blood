@@ -90,7 +90,7 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/score",
+        path: "/score/:id",
         name: "score",
         component: () =>
             import(
@@ -100,6 +100,15 @@ const routes = [
     {
         path: "/exam/perform/:id",
         name: "exams",
+        component: () =>
+            import(
+                /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"
+            ),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/exam/review/:id/:question_id",
+        name: "review",
         component: () =>
             import(
                 /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"

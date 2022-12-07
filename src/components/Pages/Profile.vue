@@ -64,7 +64,7 @@
 
                     <!-- questions tab -->
 
-                    <b-tab title="Previous Questions TESTS" active>
+                    <b-tab title="Previous Questions TESTS">
                         <b-card-text>
                             <div class="timed_test">
                                 <div class="head">
@@ -82,25 +82,27 @@
                                                 <th scope="col">Review /Contiune</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="previousExams.length">
+                                        <tbody>
 
                                             <tr v-for="(exam, index) in previousExamsQuestions" :key="('k' + index)">
                                                 <td>{{ exam.topic_name }}</td>
                                                 <td>{{ exam.details }}</td>
                                                 <td>{{ exam.status }}</td>
                                                 <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">{{ exam.operation }}</button>
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Review')">
+                                                        <button class="main--btn review">Review</button>
                                                     </div>
-                                                    <!-- <div class="btns flex-center flex-column">
-                                                        <button class="main--btn continue">{{ exam.operation }}</button>
-                                                    </div> -->
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Continue')">
+                                                        <button class="main--btn continue">continue</button>
+                                                    </div>
                                                 </td>
                                             </tr>
 
                                         </tbody>
 
-                                        <tbody v-else-if="!previousExamsQuestions">
+                                        <!-- <tbody v-else-if="!previousExamsQuestions">
                                             <h3 class="text-center">no data found</h3>
                                         </tbody>
 
@@ -108,7 +110,7 @@
                                             <div class="flex-center mt-5">
                                                 <b-spinner type="grow"></b-spinner>
                                             </div>
-                                        </tbody>
+                                        </tbody> -->
 
                                     </table>
                                 </div>
@@ -121,7 +123,7 @@
 
                     <!-- mock tab -->
 
-                    <b-tab title="Previous Mock TESTS" active>
+                    <b-tab title="Previous Mock TESTS">
                         <b-card-text>
                             <div class="timed_test">
                                 <div class="head">
@@ -319,7 +321,15 @@ export default {
             previousExams: [],
 
             previousExamsQuestions: [],
-            previousExamsMock: []
+            previousExamsMock: [],
+
+            // get Auth data
+
+            AuthName: '',
+            AuthEmail: '',
+            AuthPhone: ''
+
+
         }
     },
     computed: {
@@ -346,7 +356,8 @@ export default {
         window.scrollTo(0, 0);
         this.getData();
         this.getDataQuestion();
-        this.getDataMock()
+        this.getDataMock();
+        this.AuthData();
     },
 
     methods: {
@@ -505,6 +516,29 @@ export default {
             }
 
         },
+
+        // get user Auth data
+
+        async AuthData() {
+            try {
+                await this.axios.get('user').then(response => {
+
+                    this.formData.name = response.data.data.name;
+                    this.formData.email = response.data.data.email;
+                    this.formData.phone = response.data.data.phone;
+
+                }).catch(error => {
+                    console.log(error.response.data.message);
+
+                })
+            } catch (error) {
+                console.log('try catch =>', error);
+            }
+        },
+
+        // go to review question
+
+
     }
 }
 </script>
