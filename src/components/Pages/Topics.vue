@@ -73,7 +73,6 @@ export default {
 
     methods: {
 
-
         //get topic data from api
 
         async getData() {

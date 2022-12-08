@@ -6,7 +6,7 @@
                 <div class="col-lg-3 col-6" data-aos="fade-right">
                     <router-link to="/">
                         <div class="navbar__logo flex-center">
-                            <img src="@/assets/images/logo2.png" alt="logo">
+                            <img :src="logoHeader" alt="logo">
                         </div>
                     </router-link>
                 </div>
@@ -132,9 +132,14 @@ export default {
 
     data() {
         return {
-            authToken: localStorage.getItem('authToken')
+            authToken: localStorage.getItem('authToken'),
 
+            logoHeader: ''
         }
+    },
+
+    mounted() {
+        this.getData();
     },
 
     methods: {
@@ -142,7 +147,26 @@ export default {
             localStorage.clear();
             window.location.reload();
             this.$router.push("/");
-        }
+        },
+
+
+        async getData() {
+            try {
+
+                this.axios.get('page/home/logos').then(response => {
+
+                    this.logoHeader = response.data.data.header_logo;
+
+                }).catch(error => {
+
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
     }
 }
 </script>    

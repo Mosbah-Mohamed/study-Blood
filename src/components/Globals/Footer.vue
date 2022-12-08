@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="footer__info flex-center">
                     <div class="image">
-                        <img src="@/assets/images/logofooter.png" alt="footer img">
+                        <img :src="logoFooter" alt="footer img">
                     </div>
                     <ul>
                         <li><a href="#">
@@ -30,6 +30,37 @@
 <script>
 export default {
     name: "Footer",
+
+    data() {
+        return {
+            logoFooter: ''
+        }
+    },
+
+
+    mounted() {
+        window.scrollTo(0, 0);
+        this.getData();
+    },
+
+    methods: {
+        async getData() {
+            try {
+
+                this.axios.get('page/home/logos').then(response => {
+
+                    this.logoFooter = response.data.data.footer_logo;
+
+                }).catch(error => {
+
+                    console.log(error.response.data.message)
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+    }
 
 
 }

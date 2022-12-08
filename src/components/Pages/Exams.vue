@@ -478,20 +478,7 @@ export default {
 
     },
 
-    // created() {
-    //     setInterval(this.moment, 1000);
-    // },
-
-
     methods: {
-
-        // start moment
-
-        // moment() {
-        //     return moment()
-        // },
-
-        // end moment
 
         async get_is_ended() {
             try {
