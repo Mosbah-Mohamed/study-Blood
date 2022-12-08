@@ -6,7 +6,7 @@
                 <div class="col-lg-3 col-6" data-aos="fade-right">
                     <router-link to="/">
                         <div class="navbar__logo flex-center">
-                            <img src="@/assets/images/logo.png" alt="logo">
+                            <img src="@/assets/images/logo2.png" alt="logo">
                         </div>
                     </router-link>
                 </div>

@@ -16,13 +16,15 @@
 
                                 <div class="question__tab">
 
+                                    <p>Filter Your Questions Below ({{ questions_countAll }}) Questions
+                                        Found):</p>
+
                                     <div class="row align-items-start">
                                         <div class="col-lg-8 col-12">
 
                                             <div class="question__tab--categories">
 
-                                                <p>Filter Your Questions Below ({{ questions_countAll }}) Questions
-                                                    Found):</p>
+
 
                                                 <div class="info_checkboxes">
 
@@ -200,13 +202,12 @@
 
                                 <div class="question__tab">
 
+                                    <p class="info">Create A New Timed Test</p>
+
                                     <div class="row align-items-start justify-content-between">
                                         <div class="col-lg-7 col-12">
 
                                             <div class="question__tab--categories tab_two-cat">
-
-                                                <p class="info">Create A New Timed Test</p>
-
 
                                                 <div class="info_checkboxes">
 
@@ -356,10 +357,7 @@
                                                 </button>
 
 
-                                                <p class="info info_bottom">Create A New Timed Test</p>
-
-
-                                                <div class="table-responsive">
+                                                <div class="table-responsive mt-50">
                                                     <table
                                                         class="table table-bordered table-hover text-center timed_table">
                                                         <thead>
@@ -381,12 +379,21 @@
 
                                                                 </td>
                                                                 <td>
+
                                                                     <div class="flex-center last_cell">
                                                                         <span>{{ previous_exam.status }}</span>
-                                                                        <span class="continue">{{
-                                                                                previous_exam.operation
-                                                                        }}</span>
+                                                                        <span class="continue"
+                                                                            v-if="(previous_exam.operation == 'Review')"
+                                                                            @click="goToQuestionReview(previous_exam.id, previous_exam.first_question_id)">{{
+                                                                                    previous_exam.operation
+                                                                            }}</span>
+                                                                        <span class="continue"
+                                                                            v-if="(previous_exam.operation == 'Continue')"
+                                                                            @click="goToQuestionContinue(previous_exam.id)">{{
+                                                                                    previous_exam.operation
+                                                                            }}</span>
                                                                     </div>
+
                                                                 </td>
                                                             </tr>
 
@@ -406,14 +413,7 @@
                                                     Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
                                                     Who Are Taking The Exam
                                                 </p>
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
+
                                             </div>
 
                                         </div>
@@ -444,71 +444,11 @@
                                                     exam</button>
 
                                             </div>
-                                            <div class="mock-exam position-relative">
-
-                                                <img src="@/assets/images/ray.png" alt="ray png">
-
-                                                <h3 class="main_head">MRCP Part 2 - Mock Exam A (Paper 1)</h3>
-                                                <p>This Mock Exam Consists Of <span class="number">100</span> Questions
-                                                    Over
-                                                    <span class="number">180</span> Minutes
-                                                </p>
-
-                                            </div>
-                                            <div class="mock-exam position-relative">
-
-                                                <img src="@/assets/images/ray.png" alt="ray png">
-
-                                                <h3 class="main_head">MRCP Part 2 - Mock Exam A (Paper 1)</h3>
-                                                <p>This Mock Exam Consists Of <span class="number">100</span> Questions
-                                                    Over
-                                                    <span class="number">180</span> Minutes
-                                                </p>
-
-                                            </div>
-                                            <div class="mock-exam position-relative">
-
-                                                <img src="@/assets/images/ray.png" alt="ray png">
-
-                                                <h3 class="main_head">MRCP Part 2 - Mock Exam A (Paper 1)</h3>
-                                                <p>This Mock Exam Consists Of <span class="number">100</span> Questions
-                                                    Over
-                                                    <span class="number">180</span> Minutes
-                                                </p>
-
-                                            </div>
-                                            <div class="mock-exam position-relative">
-
-                                                <img src="@/assets/images/ray.png" alt="ray png">
-
-                                                <h3 class="main_head">MRCP Part 2 - Mock Exam A (Paper 1)</h3>
-                                                <p>This Mock Exam Consists Of <span class="number">100</span> Questions
-                                                    Over
-                                                    <span class="number">180</span> Minutes
-                                                </p>
-
-                                            </div>
 
                                         </div>
                                         <div class="col-lg-5 col-12">
 
                                             <div class="question__tab--question tab_two">
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
-                                                <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
-                                                </p>
                                                 <p>
                                                     Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
                                                     Who Are Taking The Exam
@@ -727,7 +667,34 @@ export default {
             } catch (error) {
                 console.log("error=>", error)
             }
-        }
+        },
+
+
+        // go to review exam
+
+        async goToQuestionReview(exam_id, question_id) {
+            try {
+
+                this.$router.push({ name: 'review', params: { id: exam_id, question_id: question_id } })
+
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        // go to continue exam
+
+        async goToQuestionContinue(exam_id) {
+            try {
+
+                this.$router.push({ name: 'exams', params: { id: exam_id } })
+
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
     },
 }
 </script>
