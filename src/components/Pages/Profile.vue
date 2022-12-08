@@ -32,12 +32,16 @@
                                                 <td>{{ exam.details }}</td>
                                                 <td>{{ exam.status }}</td>
                                                 <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">{{ exam.operation }}</button>
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Review')">
+                                                        <button class="main--btn review"
+                                                            @click="goToQuestionReview(exam.id, exam.first_question_id)">Review</button>
                                                     </div>
-                                                    <!-- <div class="btns flex-center flex-column">
-                                                        <button class="main--btn continue">{{ exam.operation }}</button>
-                                                    </div> -->
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Continue')">
+                                                        <button class="main--btn continue"
+                                                            @click="goToQuestionContinue(exam.id)">continue</button>
+                                                    </div>
                                                 </td>
                                             </tr>
 
@@ -91,11 +95,13 @@
                                                 <td>
                                                     <div class="btns flex-center flex-column"
                                                         v-if="(exam.operation == 'Review')">
-                                                        <button class="main--btn review">Review</button>
+                                                        <button class="main--btn review"
+                                                            @click="goToQuestionReview(exam.id, exam.first_question_id)">Review</button>
                                                     </div>
                                                     <div class="btns flex-center flex-column"
                                                         v-if="(exam.operation == 'Continue')">
-                                                        <button class="main--btn continue">continue</button>
+                                                        <button class="main--btn continue"
+                                                            @click="goToQuestionContinue(exam.id)">continue</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -148,12 +154,16 @@
                                                 <td>{{ exam.details }}</td>
                                                 <td>{{ exam.status }}</td>
                                                 <td>
-                                                    <div class="btns flex-center flex-column">
-                                                        <button class="main--btn review">{{ exam.operation }}</button>
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Review')">
+                                                        <button class="main--btn review"
+                                                            @click="goToQuestionReview(exam.id, exam.first_question_id)">Review</button>
                                                     </div>
-                                                    <!-- <div class="btns flex-center flex-column">
-                                                        <button class="main--btn continue">{{ exam.operation }}</button>
-                                                    </div> -->
+                                                    <div class="btns flex-center flex-column"
+                                                        v-if="(exam.operation == 'Continue')">
+                                                        <button class="main--btn continue"
+                                                            @click="goToQuestionContinue(exam.id)">continue</button>
+                                                    </div>
                                                 </td>
                                             </tr>
 
@@ -536,7 +546,31 @@ export default {
             }
         },
 
-        // go to review question
+        // go to review exam
+
+        async goToQuestionReview(exam_id, question_id) {
+            try {
+
+                this.$router.push({ name: 'review', params: { id: exam_id, question_id: question_id } })
+
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
+
+        // go to continue exam
+
+        async goToQuestionContinue(exam_id) {
+            try {
+
+                this.$router.push({ name: 'exams', params: { id: exam_id } })
+
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
 
 
     }

@@ -214,7 +214,7 @@
 
                                                     <div class="collapse_with_input"
                                                         v-for="(category, index) in timedData">
-                                                        <label class="containercheck" v-b-toggle="'collapse-' + index">
+                                                        <label class="containercheck" v-b-toggle="'collapse2-' + index">
                                                             <input @click.stop type="checkbox" :key="('m' + index)"
                                                                 v-model="selectedBoxesTime" :value="category.id">
                                                             <span class="checkmark"></span>
@@ -227,7 +227,7 @@
                                                             <span class="red"></span>
                                                         </label>
 
-                                                        <b-collapse :id="'collapse-' + index" class="mt-2"
+                                                        <b-collapse :id="'collapse2-' + index" class="mt-2"
                                                             v-if="category.sub_categories">
                                                             <b-card>
 

@@ -659,7 +659,7 @@ button:disabled {
   background: #fff;
   transition: 0.5s;
   margin-bottom: 35px;
-  min-height: 510px;
+  min-height: 410px;
 }
 .topics .topics__box .image {
   width: 100%;
@@ -691,6 +691,7 @@ button:disabled {
   display: flex;
   gap: 23px;
   padding-bottom: 25px;
+  margin: 30px 0;
   width: auto;
 }
 .topics .topics__box .topics__box--info .box__btns .second--btn {
@@ -1618,15 +1619,17 @@ button:disabled {
 }
 .examsPage .head_top .previous {
   height: 31px;
-  border: 1px solid #dddddd;
   border-radius: 5px;
   font-family: "Calibri-Regular";
-  background: transparent;
+  background-color: #ff4d00;
+  border: none;
   color: #fff;
   gap: 4px;
   width: auto;
 }
 .examsPage .head_top .next {
+  background-color: #ff4d00;
+  border: none;
   font-family: "Calibri-Regular";
 }
 .examsPage .question_name {

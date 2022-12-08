@@ -104,7 +104,7 @@ const routes = [
             import(
                 /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"
             ),
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/exam/review/:id/:question_id",
@@ -113,7 +113,7 @@ const routes = [
             import(
                 /* webpackChunkName: "exams" */ "@/views/PagesView/ExamsView.vue"
             ),
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/forgetPassword",

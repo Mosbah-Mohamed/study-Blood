@@ -9,6 +9,8 @@
 
                     <div class="col-lg-7 col-12">
 
+
+
                         <div class="question__tab">
 
                             <div class="row align-items-start">
@@ -310,6 +312,22 @@
                     </div>
                     <div class="col-lg-2 col-12">
 
+                        <div class="ranges" v-if="(!is_finished && timeLeft)">
+                            <h4 class="d-flex justify-content-start">
+                                <font-awesome-icon style="color:#ff4d00" icon="fa-solid fa-file" />
+                                <span>{{ exam_type }}</span>
+                            </h4>
+
+                            <div class="all_ranges">
+                                <div class="range_box">
+                                    <div class="box_item" style="border:none">
+                                        <p class='time_left'>{{ timeLeftString }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
 
                         <div class="table-responsive score_table">
                             <table class="table text-center table-bordered table-hover">
@@ -378,6 +396,8 @@
 </template>
 
 <script>
+
+import moment from "moment";
 export default {
     name: "exams",
 
@@ -391,6 +411,7 @@ export default {
 
             // exam info
 
+            exam_type: '',
             questionContent: "",
             question_id: '',
             All_Answers: [],
@@ -430,10 +451,23 @@ export default {
 
             // is_ended
 
-            is_finished: ''
+            is_finished: '',
+
+            // start timer counter
+
+            timeLeft: '',
+            timeLeftString: '',
+            timer: null
 
 
         }
+    },
+
+    watch: {
+        timeLeft: function (val) {
+            const timeZero = moment("1900-01-01 00:00:00");
+            this.timeLeftString = timeZero.add(val, 'seconds').format("HH:mm:ss")
+        },
     },
 
     mounted() {
@@ -441,13 +475,23 @@ export default {
         window.scrollTo(0, 0);
         // this.getData();
         this.get_is_ended();
-        // this.goToQuestion(this.$route.params.question_id)
-        // this.goToQuestion('');
 
     },
 
+    // created() {
+    //     setInterval(this.moment, 1000);
+    // },
+
 
     methods: {
+
+        // start moment
+
+        // moment() {
+        //     return moment()
+        // },
+
+        // end moment
 
         async get_is_ended() {
             try {
@@ -485,6 +529,8 @@ export default {
                 this.axios.get(`exam/perform/${this.$route.params.id}`).then(response => {
                     this.loading = true;
 
+                    this.exam_type = response.data.data.exam_type;
+
                     this.questionContent = response.data.data.question.content;
                     this.question_id = response.data.data.question.id;
                     this.question_next_id = response.data.data.next_question_id;
@@ -501,12 +547,33 @@ export default {
 
                     this.numQuestion = response.data.message;
 
+                    // timer counter
+
+                    this.timeLeft = response.data.data.time_left;
+
+                    console.log(response.data.data.time_left)
+
+                    // start timer
+
+                    this.timer = setInterval(() => {
+                        if (this.timeLeft <= 0) {
+
+                            console.log(this.timeLeft)
+
+                            clearInterval(this.timer);
+                            this.endExam()
+                            // alert('Done');
+                        } else {
+                            this.timeLeft--
+                        }
+                    }, 1000)
+
                     // this.exam_type = response.data.data.exam_type;
 
                     // console.log(response.data.data.categories)
                 }).catch(error => {
 
-                    // this.$router.push('/')
+                    this.$router.push('/')
 
                     console.log(error.response.data.message)
                 })
@@ -672,7 +739,9 @@ export default {
                     // this.exam_type = response.data.data.exam_type;
 
                     // console.log(response.data.data.categories)
+
                 }).catch(error => {
+                    this.$router.push('/')
                     console.log(error.response.data.message)
                 })
 
@@ -698,17 +767,19 @@ export default {
 
                     this.$router.push({ name: 'score', params: this.$route.params.id });
 
+
                 }).catch(error => {
+                    this.$router.push({ name: 'score', params: this.$route.params.id });
                     console.log(error.response.data.message)
 
-                    this.$swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `${error.response.data.message}`,
-                        showConfirmButton: false,
-                        timer: 3000
-                    })
+                    // this.$swal.fire({
+                    //     position: 'center',
+                    //     icon: 'error',
+                    //     title: 'Oops...',
+                    //     text: `${error.response.data.message}`,
+                    //     showConfirmButton: false,
+                    //     timer: 3000
+                    // })
                 })
 
             } catch (error) {
@@ -724,6 +795,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.time_left {
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
 .showEnd {
     display: block !important;
 }
