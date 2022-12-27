@@ -6,13 +6,18 @@
                 <div class="content flex-center" data-aos="fade-right">
                     <h1 class="main_head">{{ item.title }}</h1>
                     <p>{{ item.description }}</p>
-                    <a class="main--btn" :href="item.button_link">{{ item.button_content }}</a>
+
+                    <router-link :to="{ path: '/', hash: '#doWork' }">
+                        <a class="main--btn">{{ item.button_content }}</a>
+                    </router-link>
+
                 </div>
             </div>
         </div>
         <div class="flex-center mt-5" v-if="!loading">
             <b-spinner type="grow"></b-spinner>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -53,7 +58,8 @@ export default {
                 console.log('try catch =>', error);
             }
 
-        }
+        },
+
 
     }
 }

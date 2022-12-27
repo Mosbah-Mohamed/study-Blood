@@ -124,7 +124,7 @@ export default {
             inputOptions: {
                 required: true,
                 maxlength: 14,
-                showDialCode: true
+                // showDialCode: true
             }
         }
     },

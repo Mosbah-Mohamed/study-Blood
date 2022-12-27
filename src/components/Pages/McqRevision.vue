@@ -178,8 +178,11 @@
                                                     performance data is given for an example user
 
                                                 </p>
-                                                <button class="main--btn">Sign Up For Access To The Entire
-                                                    Resource</button>
+
+                                                <router-link :to="`/subscribe/topic/${this.$route.params.id}`">
+                                                    <button class="main--btn">Sign Up For Access To The Entire
+                                                        Resource</button>
+                                                </router-link>
                                             </div>
 
                                             <div class="question__tab--question">

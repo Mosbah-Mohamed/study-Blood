@@ -16,9 +16,10 @@
                         <ul>
 
                             <li>
-                                <router-link to="/">
+                                <router-link :to="{ path: '/', hash: '#doWork' }">
                                     <a href="http://" target="_blank" rel="noopener noreferrer">
-                                        <font-awesome-icon class="house__icon" icon="fa-solid fa-house" />
+                                        <!-- <font-awesome-icon class="house__icon" icon="fa-solid fa-house" /> -->
+                                        <img src="@/assets/images/home.svg" width="22px" alt="home">
                                     </a>
                                 </router-link>
                             </li>

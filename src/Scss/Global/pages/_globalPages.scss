@@ -111,6 +111,14 @@ body {
   -webkit-line-clamp: 5;
 }
 
+.text-ellipsis-1{
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
 .text-ellipsis-2 {
   display: -webkit-box;
   text-overflow: ellipsis;

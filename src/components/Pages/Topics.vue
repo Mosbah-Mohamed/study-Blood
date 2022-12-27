@@ -10,7 +10,7 @@
                             <img :src="topic.image" alt="topic img">
                         </div>
                         <div class="topics__box--info">
-                            <h3>{{ topic.name }}</h3>
+                            <h3 class="text-ellipsis-1">{{ topic.name }}</h3>
                             <p class="text-ellipsis-2">{{ topic.description }}</p>
                             <div class="box__btns">
 

@@ -49,4 +49,7 @@
         }
     }
 }
+.router-link-exact-active.router-link-active a {
+    color: $mainColor !important;
+}
 //========== end navbar ===========
