@@ -118,7 +118,7 @@ export default {
         async sendData() {
 
             try {
-                await this.axios.post('contact', this.formData).then(res => {
+                await this.axios.post('/page/contact', this.formData).then(res => {
 
                     this.formData.name = '';
                     this.formData.email = '';
@@ -131,7 +131,7 @@ export default {
                         position: 'center',
                         icon: 'success',
                         title: 'Message sent Successfully',
-                        text: `${res.data.message}`,
+                        // text: `${res.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
                     })

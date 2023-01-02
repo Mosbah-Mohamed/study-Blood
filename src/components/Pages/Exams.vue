@@ -746,8 +746,8 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
-                        text: `${response.data.message}`,
+                        title: 'Exam end Successfully',
+                        // text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
                     });
@@ -809,11 +809,12 @@ export default {
 
 
     span {
-        width: 50%;
+        width: 80%;
         display: block;
-        padding-inline-start: 30px;
+        padding-inline-start: 10px;
 
         &:last-child {
+            width: 10%;
             font-family: "Calibri-Bold";
 
         }

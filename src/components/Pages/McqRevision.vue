@@ -63,7 +63,7 @@
                                                                         <span>{{ sub_category.name }}</span>
                                                                         <div class="advantage">
                                                                             <span>{{ sub_category.questions_count
-                                                                            }}</span>
+}}</span>
                                                                         </div>
                                                                     </div>
                                                                     <span class="red"></span>
@@ -189,8 +189,8 @@
                                                 <h3 class="main_head">Questions</h3>
                                                 <p>
                                                     Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam...
-                                                    <span>More</span>
+                                                    Who Are Taking The Exam
+                                                    <!-- <span>More</span> -->
                                                 </p>
                                             </div>
 
@@ -246,7 +246,7 @@
                                                                         <span>{{ sub_category.name }}</span>
                                                                         <div class="advantage">
                                                                             <span>{{ sub_category.questions_count
-                                                                            }}</span>
+}}</span>
                                                                         </div>
                                                                     </div>
                                                                     <span class="red"></span>
@@ -388,13 +388,13 @@
                                                                         <span class="continue"
                                                                             v-if="(previous_exam.operation == 'Review')"
                                                                             @click="goToQuestionReview(previous_exam.id, previous_exam.first_question_id)">{{
-                                                                                    previous_exam.operation
-                                                                            }}</span>
+        previous_exam.operation
+}}</span>
                                                                         <span class="continue"
                                                                             v-if="(previous_exam.operation == 'Continue')"
                                                                             @click="goToQuestionContinue(previous_exam.id)">{{
-                                                                                    previous_exam.operation
-                                                                            }}</span>
+        previous_exam.operation
+}}</span>
                                                                     </div>
 
                                                                 </td>
@@ -413,8 +413,12 @@
 
                                             <div class="question__tab--question tab_two">
                                                 <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
+                                                    Timed Tests Allow You To Attempt A Set Number Of Questions Against
+                                                    The Clock. The Questions Are Taken From The Main Question Bank, So
+                                                    Your Mark On The Timed Test Will Be Reflected In Your Overall
+                                                    Performance Data. If You Are Unable To Complete The Timed Test In
+                                                    One Sitting You Have The Option Of Saving Your Progress And
+                                                    Completing The Timed Test At A Later Date.
                                                 </p>
 
                                             </div>
@@ -437,7 +441,7 @@
 
                                                 <img src="@/assets/images/ray.png" alt="ray png">
 
-                                                <h3 class="main_head">MRCP Part 2 - Mock Exam A (Paper 1)</h3>
+                                                <h3 class="main_head">Mock Exam</h3>
                                                 <p>This Mock Exam Consists Of <span class="number">100</span> Questions
                                                     Over
                                                     <span class="number">180</span> Minutes
@@ -453,9 +457,26 @@
 
                                             <div class="question__tab--question tab_two">
                                                 <p>
-                                                    Your Average Score Of 65% Puts You On The 65Th Percentile Of Users
-                                                    Who Are Taking The Exam
+                                                    Mock Exams Are Designed To Recreate What You Will Experience On The
+                                                    Day Of The Exam As Accurately As Possible. As Exams Increasingly
+                                                    Move Online We've Also Recreated The Kind Of Interface You'll Use.
                                                 </p>
+
+                                                <p>
+                                                    The Questions Are Hand Picked By Our Editors To Reflect The Range
+                                                    And Weighting Of The Syllabus. They Are Completely Separate From The
+                                                    Main Question Bank And The Mock Exam Score Will Not Affect Your
+                                                    Overall Performance Data.
+                                                </p>
+
+                                                <p>
+                                                    If You Are Unable To Complete The Mock
+                                                    Exam In One Sitting You Have The Option Of Saving Your Progress And
+                                                    Completing The Exam At A Later Date. Due To The Realistic Screen
+                                                    Format You Are Not Able To Take A Mock Exam Using A Mobile Phone.
+                                                    We'd Love To Know What You Think Of This New Feature - Let Us Know!s
+                                                </p>
+
                                             </div>
 
                                         </div>
@@ -585,7 +606,7 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
+                        title: 'Exam start',
                         text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
@@ -615,7 +636,7 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
+                        title: 'Exam start',
                         text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
@@ -648,7 +669,7 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
+                        title: 'Exam start',
                         text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
@@ -699,6 +720,10 @@ export default {
                 console.log("error=>", error)
             }
         },
+
+
+
+
     },
 }
 </script>

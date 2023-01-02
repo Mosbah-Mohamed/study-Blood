@@ -150,10 +150,11 @@
             </div>
 
 
-        </div>
 
-        <div class="flex-center mt-5 mb-10" v-if="!loading">
-            <b-spinner type="grow"></b-spinner>
+
+            <div class="flex-center mt-5 mb-10" v-if="!loading">
+                <b-spinner type="grow"></b-spinner>
+            </div>
         </div>
     </div>
 </template>
@@ -215,7 +216,7 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
+                        title: 'Subscribed package Successfully',
                         text: `${response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
@@ -231,18 +232,19 @@ export default {
                         text: `${error.response.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
-                    })
-                })
 
+
+
+                    });
+                })
             } catch (error) {
                 console.log("error=>", error)
             }
         }
-    },
-
-
-
+    }
 }
+
+
 </script>
 
 <style lang="scss" scoped>

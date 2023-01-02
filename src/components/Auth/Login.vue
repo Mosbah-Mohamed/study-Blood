@@ -137,8 +137,8 @@ export default {
                     this.$swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Message sent Successfully',
-                        text: `${res.data.message}`,
+                        title: 'login Successfully',
+                        // text: `${res.data.message}`,
                         showConfirmButton: false,
                         timer: 3000
                     });
