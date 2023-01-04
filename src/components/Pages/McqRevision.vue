@@ -70,77 +70,11 @@
                                                                 </label>
 
 
-                                                                <!-- <b-collapse id="collapse-1-inner" class="mt-2">
-                                                                    <b-card>
-
-                                                                        <label class="containercheck">
-                                                                            <input type="checkbox">
-                                                                            <span class="checkmark"></span>
-                                                                            <div class="words">
-                                                                                <span>All</span>
-                                                                                <div class="advantage">
-                                                                                    <span>Attempted 12 Of 4,324</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <span class="red"></span>
-                                                                        </label>
-
-                                                                    </b-card>
-                                                                </b-collapse> -->
-
                                                             </b-card>
                                                         </b-collapse>
                                                     </div>
 
 
-
-                                                    <!-- <label class="containercheck">
-                                                        <input type="checkbox">
-                                                        <span class="checkmark"></span>
-                                                        <div class="words">
-                                                            <span>All</span>
-                                                            <div class="advantage">
-                                                                <span>Attempted 12 Of 4,324</span>
-                                                            </div>
-                                                        </div>
-                                                        <span class="red"></span>
-                                                    </label>
-
-                                                    <label class="containercheck">
-                                                        <input type="checkbox">
-                                                        <span class="checkmark"></span>
-                                                        <div class="words">
-                                                            <span>All</span>
-                                                            <div class="advantage">
-                                                                <span>Attempted 12 Of 4,324</span>
-                                                            </div>
-                                                        </div>
-                                                        <span class="red"></span>
-                                                    </label>
-
-                                                    <label class="containercheck">
-                                                        <input type="checkbox">
-                                                        <span class="checkmark"></span>
-                                                        <div class="words">
-                                                            <span>All</span>
-                                                            <div class="advantage">
-                                                                <span>Attempted 12 Of 4,324</span>
-                                                            </div>
-                                                        </div>
-                                                        <span class="red"></span>
-                                                    </label>
-
-                                                    <label class="containercheck">
-                                                        <input type="checkbox">
-                                                        <span class="checkmark"></span>
-                                                        <div class="words">
-                                                            <span>All</span>
-                                                            <div class="advantage">
-                                                                <span>Attempted 12 Of 4,324</span>
-                                                            </div>
-                                                        </div>
-                                                        <span class="red"></span>
-                                                    </label> -->
 
                                                 </div>
 
@@ -201,7 +135,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Time Test" @click="(exam_type = 'time')" :disabled="!is_subscribed">
+                            <b-tab title="Time Test" @click="(exam_type = 'time')">
 
                                 <div class="question__tab">
 
@@ -218,9 +152,11 @@
 
                                                     <div class="collapse_with_input"
                                                         v-for="(category, index) in timedData">
-                                                        <label class="containercheck" v-b-toggle="'collapse2-' + index">
+                                                        <label class="containercheck" v-b-toggle="'collapse2-' + index"
+                                                            :disabled="!is_subscribed">
                                                             <input @click.stop type="checkbox" :key="('m' + index)"
-                                                                v-model="selectedBoxesTime" :value="category.id">
+                                                                v-model="selectedBoxesTime" :value="category.id"
+                                                                :disabled="!is_subscribed">
                                                             <span class="checkmark"></span>
                                                             <div class="words">
                                                                 <span>{{ category.name }}</span>
@@ -232,7 +168,7 @@
                                                         </label>
 
                                                         <b-collapse :id="'collapse2-' + index" class="mt-2"
-                                                            v-if="category.sub_categories">
+                                                            v-if="category.sub_categories" :disabled="!is_subscribed">
                                                             <b-card>
 
                                                                 <label class="containercheck"
@@ -339,18 +275,21 @@
                                                 <div class="info_checkboxes">
                                                     <h3>Number Of Questions:</h3>
 
-                                                    <v-select maxHeight="40px" :placeholder="placeholder.default"
-                                                        :options="options" v-model="questions_count">
+                                                    <v-select maxHeight="40px" :disabled="!is_subscribed"
+                                                        :placeholder="placeholder.default" :options="options"
+                                                        v-model="questions_count">
                                                     </v-select>
                                                 </div>
                                                 <div class="info_checkboxes">
                                                     <h3>Length Of Test (Minutes, Will Default To The Amount Of Time
                                                         Given In The Exam):</h3>
 
-                                                    <input type="text" v-model="duration" placeholder="Enter Number">
+                                                    <input type="text" :disabled="!is_subscribed" v-model="duration"
+                                                        placeholder="Enter Number">
                                                 </div>
 
-                                                <button class="main--btn" @click="sendDataTime()">
+                                                <button class="main--btn" @click="sendDataTime()"
+                                                    :disabled="!is_subscribed">
 
                                                     <span>Start The Questions</span>
                                                     <span>
@@ -430,7 +369,7 @@
 
                             </b-tab>
 
-                            <b-tab title="Mock Exams" @click="(exam_type = 'mock')" :disabled="!is_subscribed">
+                            <b-tab title="Mock Exams" @click="(exam_type = 'mock')">
 
                                 <div class="question__tab tab_three">
 
@@ -447,7 +386,8 @@
                                                     <span class="number">180</span> Minutes
                                                 </p>
 
-                                                <button class="main--btn mt-3" @click="sendDataMock()">start
+                                                <button :disabled="!is_subscribed" class="main--btn mt-3"
+                                                    @click="sendDataMock()">start
                                                     exam</button>
 
                                             </div>
@@ -530,6 +470,8 @@ export default {
 
             is_subscribed: '',
 
+            is_correct:"",
+
             questions_countAll: ''
 
 
@@ -561,6 +503,7 @@ export default {
                     this.categoriesGet = response.data.data.categories;
                     this.question_selection = response.data.data.question_selection;
                     this.is_subscribed = response.data.data.topic.is_subscribed;
+                    this.is_correct = response.data.data.topic.is_correct;
                     this.questions_countAll = response.data.data.questions_count;
                     // this.exam_type = response.data.data.exam_type;
 

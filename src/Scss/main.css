@@ -595,7 +595,8 @@ button:disabled {
   width: auto;
 }
 
-.router-link-exact-active.router-link-active a {
+.router-link-exact-active.router-link-active a,
+.router-link-exact-active.router-link-active i {
   color: #ff4d00 !important;
 }
 
@@ -788,7 +789,7 @@ button:disabled {
   margin-bottom: 70px;
 }
 .about__us .about__info h3 {
-  margin-bottom: 32px;
+  margin-bottom: 31px;
 }
 .about__us .about__info p.desc p {
   position: relative;
@@ -1417,6 +1418,8 @@ button:disabled {
 }
 .mcqRevision .all_questions .question__tab .question__tab--categories .info_checkboxes .containercheck {
   margin: 30px 18px;
+  max-height: 150px;
+  background: #fff;
 }
 .mcqRevision .all_questions .question__tab .question__tab--categories .info_checkboxes h3 {
   background: #787878 0% 0% no-repeat padding-box;
@@ -1431,6 +1434,8 @@ button:disabled {
 .mcqRevision .all_questions .question__tab .question__tab--categories .info_checkboxes .containercheck input:checked ~ .red {
   background-color: #ff4d00;
   border-radius: 5px;
+  min-height: -webkit-fill-available;
+  margin-bottom: 0;
 }
 .mcqRevision .all_questions .question__tab .question__tab--categories .info_checkboxes .containercheck input:checked ~ .words span {
   color: #fff;
@@ -2114,7 +2119,7 @@ button:disabled {
 }
 @media (max-width: 767px) {
   .examsPage .question_name {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
   .examsPage .question_name p,

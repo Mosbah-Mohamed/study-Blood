@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row align-items-center">
 
-                <div class="col-lg-3 col-6" data-aos="fade-right">
+                <div class="col-lg-3 col-6">
                     <router-link to="/">
                         <div class="navbar__logo flex-center">
                             <img :src="logoHeader" alt="logo">
@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="col-lg-6 hide_md">
-                    <div class="navbar__links flex-center" data-aos="fade-up">
+                    <div class="navbar__links flex-center">
                         <ul>
 
                             <li>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-6 hide_sm_md" data-aos="fade-left">
+                <div class="col-lg-3 col-6 hide_sm_md">
                     <div class="navbar__btns flex-center">
                         <router-link to="/signup" v-if="!authToken">
                             <button class="navbar__btns--sign main--btn">Sign Up</button>

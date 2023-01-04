@@ -41,6 +41,10 @@
 
                                                 <p>{{ questionContent }}</p>
 
+                                                <img :src="questionImage" v-if="questionImage"
+                                                    style="width:150px;height:150px;border-radius:5px"
+                                                    alt="question image" />
+
                                                 <!-- <div class="table-responsive">
                                                     <table class="table table-bordered table-hover">
 
@@ -80,12 +84,21 @@
 
                                                 <div class="head_info">
 
-                                                    <div class="correct">
+                                                    <div class="correct" v-if="is_correct">
                                                         <span>
                                                             <font-awesome-icon icon="fa-solid fa-check" />
                                                         </span>
                                                         <span>Correct Answer</span>
                                                     </div>
+
+                                                    <div class="correct" v-else>
+                                                        <span style="color:#ff4d00">
+                                                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                                                        </span>
+                                                        <span style="color:#ff4d00">Wrong Answer</span>
+                                                    </div>
+
+
                                                     <div class="prev_sol">
                                                         <span>Previous Solutions</span>
                                                     </div>
@@ -138,6 +151,16 @@
                                         <div class="under_question" v-if="is_answered">
                                             <p v-html="hint"></p>
                                         </div>
+
+                                        <!-- <div class="editor_config">
+                                            <ckeditor v-model="dataValue" :config="editorConfig"></ckeditor>
+
+                                            <p>{{ dataValue }}</p>
+
+                                            <div class="btns">
+                                                <button class="main--btn">Send Notes</button>
+                                            </div>
+                                        </div> -->
 
                                         <!-- <div class="defects">
                                             <h5>Visual field defects:</h5>
@@ -413,6 +436,7 @@ export default {
 
             exam_type: '',
             questionContent: "",
+            questionImage: '',
             question_id: '',
             All_Answers: [],
 
@@ -433,6 +457,8 @@ export default {
             // is answerd question
 
             is_answered: '',
+
+            is_correct: "",
 
             // submit answer exam
 
@@ -457,7 +483,15 @@ export default {
 
             timeLeft: '',
             timeLeftString: '',
-            timer: null
+            timer: null,
+
+
+
+            // editor config
+            dataValue: "",
+            editorConfig: {
+                language: "en",
+            },
 
 
         }
@@ -519,6 +553,7 @@ export default {
                     this.exam_type = response.data.data.exam_type;
 
                     this.questionContent = response.data.data.question.content;
+                    this.questionImage = response.data.data.question.image;
                     this.question_id = response.data.data.question.id;
                     this.question_next_id = response.data.data.next_question_id;
                     this.question_previous_id = response.data.data.previous_question_id;
@@ -531,6 +566,7 @@ export default {
                     this.references_table = response.data.data.question.references;
 
                     this.is_answered = response.data.data.is_answered;
+                    this.is_correct = response.data.data.is_correct;
 
                     this.numQuestion = response.data.message;
 
@@ -583,6 +619,7 @@ export default {
                     this.links = response.data.data.question.links;
                     this.hint = response.data.data.question.hint;
                     this.is_answered = response.data.data.is_answered;
+                    this.is_correct = response.data.data.is_correct;
 
                     // nav
                     this.question_next_id = response.data.data.next_question_id;
@@ -621,6 +658,7 @@ export default {
                     this.loading = true;
 
                     this.questionContent = response.data.data.question.content;
+                    this.questionImage = response.data.data.question.image;
                     this.question_id = response.data.data.question.id;
 
                     // nav
@@ -636,6 +674,7 @@ export default {
                     this.references_table = response.data.data.question.references;
 
                     this.is_answered = response.data.data.is_answered;
+                    this.is_correct = response.data.data.is_correct;
 
                     this.numQuestion = response.data.message;
 
@@ -661,6 +700,7 @@ export default {
                     this.loading = true;
 
                     this.questionContent = response.data.data.question.content;
+                    this.questionImage = response.data.data.question.image;
                     this.question_id = response.data.data.question.id;
 
 
@@ -677,6 +717,7 @@ export default {
                     this.references_table = response.data.data.question.references;
 
                     this.is_answered = response.data.data.is_answered;
+                    this.is_correct = response.data.data.is_correct;
 
                     this.numQuestion = response.data.message;
 
@@ -702,6 +743,7 @@ export default {
                     this.loading = true;
 
                     this.questionContent = response.data.data.question.content;
+                    this.questionImage = response.data.data.question.image;
                     this.question_id = response.data.data.question.id;
 
                     // nav
@@ -717,6 +759,7 @@ export default {
                     this.references_table = response.data.data.question.references;
 
                     this.is_answered = response.data.data.is_answered;
+                    this.is_correct = response.data.data.is_correct;
 
                     this.numQuestion = response.data.message;
 
@@ -822,13 +865,14 @@ export default {
 }
 
 .red-back {
-    background-color: red !important;
+    background-color: rgba($color: red, $alpha: 0.5) !important;
     border-left: 8px solid red !important;
-    opacity: 0.5;
+    // opacity: 0.5;
 }
 
 
 .gray-back {
-    background-color: #DDD !important;
+    background-color: rgba($color: #DDD, $alpha: 0.5) !important;
+    border-left: 8px solid #DDD !important;
 }
 </style>

@@ -93,7 +93,7 @@
                                             color: $mainColor;
                                             text-decoration: underline;
                                             font-family: "Calibri-Regular";
-                                            cursor:pointer;
+                                            cursor: pointer;
                                             // opacity: 0.3;
                                         }
                                         &.review {
@@ -169,6 +169,9 @@
 
                     .containercheck {
                         margin: 30px 18px;
+                        max-height: 150px;
+                        background: #fff;
+                        // background: #ff4d00;
                     }
 
                     h3 {
@@ -185,6 +188,8 @@
                     .containercheck input:checked ~ .red {
                         background-color: $mainColor;
                         border-radius: 5px;
+                        min-height: -webkit-fill-available;
+                        margin-bottom: 0;
                         // z-index: 3;
                     }
                     .containercheck input:checked ~ .words span {
