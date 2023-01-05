@@ -559,8 +559,6 @@ export default {
             }
         },
 
-
-
         async getData() {
             try {
 
