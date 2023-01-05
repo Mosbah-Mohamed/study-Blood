@@ -2052,6 +2052,12 @@ button:disabled {
   }
 }
 @media (max-width: 991px) {
+  .left_desk {
+    display: none;
+  }
+  .left_mob {
+    display: block !important;
+  }
   .header .overlay .content p {
     width: 100%;
   }

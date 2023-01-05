@@ -16,6 +16,23 @@
                             <div class="row align-items-start">
                                 <div class="col-12">
 
+
+                                    <div class="ranges left_mob d-none" v-if="(!is_finished && timeLeft)">
+                                        <h4 class="d-flex justify-content-start">
+                                            <font-awesome-icon style="color:#ff4d00" icon="fa-solid fa-file" />
+                                            <span>{{ exam_type }}</span>
+                                        </h4>
+
+                                        <div class="all_ranges">
+                                            <div class="range_box">
+                                                <div class="box_item" style="border:none">
+                                                    <p class='time_left'>{{ timeLeftString }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                     <div class="question__tab--categories">
 
 
@@ -335,7 +352,7 @@
                     </div>
                     <div class="col-lg-2 col-12">
 
-                        <div class="ranges" v-if="(!is_finished && timeLeft)">
+                        <div class="ranges left_desk" v-if="(!is_finished && timeLeft)">
                             <h4 class="d-flex justify-content-start">
                                 <font-awesome-icon style="color:#ff4d00" icon="fa-solid fa-file" />
                                 <span>{{ exam_type }}</span>
@@ -741,6 +758,8 @@ export default {
 
                 this.axios.get(`exam/perform/${this.$route.params.id}/${question_id}`).then(response => {
                     this.loading = true;
+
+                    window.scrollTo(0, 0)
 
                     this.questionContent = response.data.data.question.content;
                     this.questionImage = response.data.data.question.image;
