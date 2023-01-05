@@ -152,15 +152,15 @@
                                             <p v-html="hint"></p>
                                         </div>
 
-                                        <!-- <div class="editor_config">
-                                            <ckeditor v-model="dataValue" :config="editorConfig"></ckeditor>
+                                        <div class="editor_config">
+                                            <ckeditor v-model="note" :config="editorConfig"></ckeditor>
 
-                                            <p>{{ dataValue }}</p>
+                                            <!-- <p>{{ note }}</p> -->
 
                                             <div class="btns">
-                                                <button class="main--btn">Send Notes</button>
+                                                <button @click="sendNote" class="main--btn">Send Notes</button>
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                         <!-- <div class="defects">
                                             <h5>Visual field defects:</h5>
@@ -488,7 +488,7 @@ export default {
 
 
             // editor config
-            dataValue: "",
+            note: "",
             editorConfig: {
                 language: "en",
             },
@@ -815,7 +815,41 @@ export default {
             } catch (error) {
                 console.log("error=>", error)
             }
-        }
+        },
+
+        // send note ckeditor
+
+        async sendNote() {
+            try {
+
+                this.axios.post("exam/note", { exam_id: this.$route.params.id, question_id: this.question_id, note: this.note }).then(response => {
+
+                    this.$swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Note sent Successfully',
+                        // text: `${response.data.message}`,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+
+                }).catch(error => {
+                    console.log(error.response.data.message)
+
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${error.response.data.message}`,
+                        timer: 3000,
+                        confirmButtonColor: '#ff7400',
+                    })
+
+                })
+
+            } catch (error) {
+                console.log("error=>", error)
+            }
+        },
 
 
     },
@@ -845,7 +879,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    // align-items: center;
     line-height: 40px;
     font-size: 16px;
     font-family: "Calibri-Regular";

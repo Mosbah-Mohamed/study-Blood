@@ -150,6 +150,8 @@ export default {
                     window.localStorage.setItem("userEmail", res.data.data.email)
                     // window.localStorage.setItem("userPass", res.data.data.password)
 
+                    window.location.reload();
+
                     this.$router.push('/');
 
 

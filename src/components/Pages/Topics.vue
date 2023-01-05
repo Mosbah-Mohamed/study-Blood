@@ -71,10 +71,14 @@ export default {
         }
     },
 
+    mounted() {
+        window.scrollTo(0, 0);
+        this.getData()
+    },
+
     methods: {
 
         //get topic data from api
-
         async getData() {
 
             try {
@@ -97,10 +101,7 @@ export default {
         }
     },
 
-    mounted() {
-        window.scrollTo(0, 0);
-        this.getData()
-    }
+
 }
 </script>
 

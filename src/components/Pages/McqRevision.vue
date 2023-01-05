@@ -62,8 +62,9 @@
                                                                     <div class="words">
                                                                         <span>{{ sub_category.name }}</span>
                                                                         <div class="advantage">
-                                                                            <span>{{ sub_category.questions_count
-}}</span>
+                                                                            <span>{{
+                                                                                sub_category.questions_count
+                                                                            }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <span class="red"></span>
@@ -181,8 +182,9 @@
                                                                     <div class="words">
                                                                         <span>{{ sub_category.name }}</span>
                                                                         <div class="advantage">
-                                                                            <span>{{ sub_category.questions_count
-}}</span>
+                                                                            <span>{{
+                                                                                sub_category.questions_count
+                                                                            }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <span class="red"></span>
@@ -327,13 +329,13 @@
                                                                         <span class="continue"
                                                                             v-if="(previous_exam.operation == 'Review')"
                                                                             @click="goToQuestionReview(previous_exam.id, previous_exam.first_question_id)">{{
-        previous_exam.operation
-}}</span>
+                                                                                previous_exam.operation
+                                                                            }}</span>
                                                                         <span class="continue"
                                                                             v-if="(previous_exam.operation == 'Continue')"
                                                                             @click="goToQuestionContinue(previous_exam.id)">{{
-        previous_exam.operation
-}}</span>
+                                                                                previous_exam.operation
+                                                                            }}</span>
                                                                     </div>
 
                                                                 </td>
@@ -470,7 +472,7 @@ export default {
 
             is_subscribed: '',
 
-            is_correct:"",
+            is_correct: "",
 
             questions_countAll: ''
 
@@ -485,11 +487,6 @@ export default {
         this.getData();
         this.getDataTimed();
     },
-
-
-
-
-
 
     methods: {
 
