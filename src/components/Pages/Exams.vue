@@ -169,7 +169,7 @@
                                             <p v-html="hint"></p>
                                         </div>
 
-                                        <div class="editor_config">
+                                        <div class="editor_config" v-if="is_finished == 0">
                                             <ckeditor v-model="note" :config="editorConfig"></ckeditor>
 
                                             <!-- <p>{{ note }}</p> -->
@@ -840,6 +840,9 @@ export default {
             try {
 
                 this.axios.post("exam/note", { exam_id: this.$route.params.id, question_id: this.question_id, note: this.note }).then(response => {
+
+
+                    this.note = '';
 
                     this.$swal.fire({
                         position: 'center',
