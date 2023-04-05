@@ -169,7 +169,7 @@
                                             <p v-html="hint"></p>
                                         </div>
 
-                                        <div class="editor_config" v-if="is_finished == 0">
+                                        <div class="editor_config mt-4" v-if="is_finished == 0">
                                             <ckeditor v-model="note" :config="editorConfig"></ckeditor>
 
                                             <!-- <p>{{ note }}</p> -->
@@ -528,6 +528,8 @@ export default {
         this.get_is_ended();
 
     },
+
+
 
     methods: {
 
@@ -928,5 +930,17 @@ export default {
 .gray-back {
     background-color: rgba($color: #DDD, $alpha: 0.5) !important;
     border-left: 8px solid #DDD !important;
+}
+
+.under_question {
+    table#ans {
+        border: 2px solid #DDD !important;
+
+        td {
+            padding: 12px !important;
+            border: 2px solid #FF4D00 !important;
+        }
+    }
+
 }
 </style>

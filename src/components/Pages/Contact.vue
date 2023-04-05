@@ -17,8 +17,7 @@
                         <form action="" @submit.prevent="handleSubmit(sendData)">
                             <h4>SEND MESSAGE</h4>
 
-                            <ValidationProvider name="name" rules="required|englishLettersOnly|min:3"
-                                v-slot="{ errors }">
+                            <ValidationProvider name="name" rules="required|englishLettersOnly|min:3" v-slot="{ errors }">
                                 <div class="form-group">
                                     <label for="">Name:</label>
                                     <input type="text" v-model.trim="formData.name" placeholder="Type Name" required>
@@ -37,10 +36,10 @@
                             <label for="">Mobil:</label>
                             <div class="form-group form_tel">
                                 <vue-tel-input :inputOptions="inputOptions" :dropdownOptions="dropdownOptions"
-                                    defaultCountry="sa" v-model.trim="formData.phone"></vue-tel-input>
+                                    defaultCountry="sa" v-model="formData.phone"></vue-tel-input>
                             </div>
 
-                            <ValidationProvider name="Message" rules="required" v-slot="{ errors }">
+                            <ValidationProvider name="Message" rules="required|min:3" v-slot="{ errors }">
                                 <div class="form-group">
                                     <label for="">Message:</label>
                                     <textarea type="text" v-model.trim="formData.message"
@@ -86,9 +85,9 @@ export default {
                 showFlags: true
             },
             inputOptions: {
-                required: true,
+                // required: true,
                 maxlength: 18,
-                showDialCode: true
+                // showDialCode: true
             }
 
         }
@@ -158,6 +157,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

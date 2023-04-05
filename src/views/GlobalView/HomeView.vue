@@ -2,7 +2,8 @@
     <div class="homeView">
         <NavbarView />
         <HeaderView />
-        <DoWork />
+        <!-- <DoWork /> -->
+        <About />
         <TopicsView />
         <FooterView />
         <CopyView />
@@ -16,6 +17,7 @@ import TopicsView from '../PagesView/TopicsView.vue';
 import FooterView from './FooterView.vue';
 import CopyView from '../PagesView/CopyView.vue';
 import DoWork from '@/components/Pages/DoWork.vue';
+import About from '@/components/Pages/About.vue';
 
 export default {
     name: "homeView",
@@ -23,10 +25,8 @@ export default {
     mounted() {
         window.scrollTo(0, 0)
     },
-    components: { FooterView, TopicsView, HeaderView, NavbarView, CopyView, DoWork }
+    components: { FooterView, TopicsView, HeaderView, NavbarView, CopyView, DoWork, About }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

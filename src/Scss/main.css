@@ -88,7 +88,6 @@
   font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -1744,6 +1743,14 @@ button:disabled {
   color: #ff0000;
 }
 
+.under_question table#ans {
+  border: 2px solid #ddd !important;
+}
+.under_question table#ans td {
+  padding: 12px !important;
+  border: 2px solid #ddd !important;
+}
+
 .correct_exam .progress_head {
   padding: 0 20px;
 }
@@ -2077,7 +2084,7 @@ button:disabled {
     margin: auto;
   }
   .profile .tabs.row .col-auto,
-.profile .tabs.row .tab-content {
+  .profile .tabs.row .tab-content {
     width: 100%;
     max-width: 100%;
     flex: 100%;
@@ -2129,7 +2136,7 @@ button:disabled {
     align-items: center;
   }
   .examsPage .question_name p,
-.examsPage .question_name .table-responsive {
+  .examsPage .question_name .table-responsive {
     width: 100%;
   }
   .mcqRevision .all_questions button.main--btn {
@@ -2313,7 +2320,6 @@ button:disabled {
   font-size: 15px;
   text-align: center;
   transition: 0.5s;
-  -webkit-animation: fadeInOut 1s infinite linear;
   animation: fadeInOut 1s infinite linear;
 }
 .up:hover {
