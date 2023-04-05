@@ -1743,9 +1743,6 @@ button:disabled {
   color: #ff0000;
 }
 
-.under_question table#ans {
-  border: 2px solid #ddd !important;
-}
 .under_question table#ans td {
   padding: 12px !important;
   border: 2px solid #ddd !important;
