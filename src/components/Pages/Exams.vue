@@ -56,7 +56,7 @@
 
                                             <div class="question_name">
 
-                                                <p>{{ questionContent }}</p>
+                                                <p v-html="questionContent"></p>
 
                                                 <img :src="questionImage" v-if="questionImage"
                                                     style="width:150px;height:150px;border-radius:5px"
