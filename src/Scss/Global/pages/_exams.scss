@@ -44,8 +44,11 @@
         padding: 20px;
         align-items: baseline;
         margin: 20px;
+        flex-direction: column-reverse;
+        align-items: center;
+
         p {
-            width: 70%;
+            // width: 70%;
             font-size: 16px !important;
         }
         .table-responsive {
@@ -147,8 +150,21 @@
 }
 
 .under_question {
-    table#ans {
+    p {
+        text-transform: none !important;
+    }
 
+    ul,
+    ol {
+        list-style: disc !important;
+        padding: inherit !important;
+        margin: inherit !important;
+
+        li {
+            display: list-item !important;
+        }
+    }
+    table#ans {
         td {
             padding: 12px !important;
             border: 2px solid #ddd !important;

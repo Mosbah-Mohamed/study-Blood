@@ -1662,9 +1662,10 @@ button:disabled {
   padding: 20px;
   align-items: baseline;
   margin: 20px;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 .examsPage .question_name p {
-  width: 70%;
   font-size: 16px !important;
 }
 .examsPage .question_name .table-responsive {
@@ -1743,6 +1744,19 @@ button:disabled {
   color: #ff0000;
 }
 
+.under_question p {
+  text-transform: none !important;
+}
+.under_question ul,
+.under_question ol {
+  list-style: disc !important;
+  padding: inherit !important;
+  margin: inherit !important;
+}
+.under_question ul li,
+.under_question ol li {
+  display: list-item !important;
+}
 .under_question table#ans td {
   padding: 12px !important;
   border: 2px solid #ddd !important;
