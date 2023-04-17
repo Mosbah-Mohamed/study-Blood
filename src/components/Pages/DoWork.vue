@@ -1,6 +1,6 @@
 <template>
     <div id="doWork" class="work">
-        <div class="container">
+        <div class="container"> 
 
 
             <div class="row justify-content-between">

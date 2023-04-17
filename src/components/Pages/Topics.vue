@@ -1,5 +1,5 @@
 <template>
-    <div class="topics">
+    <div class="topics" id="topics">
         <div class="container">
             <h2 class="text-center main_head">{{ mainTitle }}</h2>
             <div class="row justify-content-center">
@@ -28,8 +28,7 @@
                                     <button class="main--btn">Subscribe Package</button>
                                 </router-link>
 
-                                <router-link v-if="(authToken && topic.is_subscribed == true)"
-                                    :to="`/topic/${topic.id}`">
+                                <router-link v-if="(authToken && topic.is_subscribed == true)" :to="`/topic/${topic.id}`">
                                     <button class="main--btn">go to Package</button>
                                 </router-link>
 
@@ -105,6 +104,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -7,7 +7,7 @@
                     <h1 class="main_head">{{ item.title }}</h1>
                     <p>{{ item.description }}</p>
 
-                    <router-link :to="{ path: '/', hash: '#doWork' }">
+                    <router-link :to="{ path: '/', hash: '#topics' }">
                         <a class="main--btn">{{ item.button_content }}</a>
                     </router-link>
 
@@ -65,6 +65,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
