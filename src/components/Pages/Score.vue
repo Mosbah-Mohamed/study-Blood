@@ -11,12 +11,11 @@
                     <div class="score_info" v-for="(answer, index) in questionsAnswers" :key="('z' + index)">
                         <div class="content">
                             <!-- <h5>Adult Advanced Life Support</h5> -->
-                            <p>{{ answer.content }}</p>
+                            <p v-html="answer.content"></p>
                         </div>
 
                         <div class="icons">
-                            <font-awesome-icon class="correct" icon="fa-solid fa-check"
-                                v-if="(answer.is_correct == 1)" />
+                            <font-awesome-icon class="correct" icon="fa-solid fa-check" v-if="(answer.is_correct == 1)" />
                             <font-awesome-icon class="close" icon="fa-solid fa-xmark"
                                 v-else-if="(answer.is_correct == 0)" />
                             <font-awesome-icon icon="fa-solid fa-minus" v-else-if="(answer.is_correct == null)" />
@@ -99,6 +98,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

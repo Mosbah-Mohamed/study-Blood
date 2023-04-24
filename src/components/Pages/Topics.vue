@@ -20,22 +20,22 @@
                                 </router-link> -->
 
                                 <router-link v-if="!authToken" to="/login">
-                                    <button class="main--btn">Subscribe Package</button>
+                                    <button class="main--btn">Take a Test</button>
                                 </router-link>
 
-                                <router-link v-if="(authToken && topic.is_subscribed == false)"
+                                <!-- <router-link v-if="(authToken && topic.is_subscribed == false)"
                                     :to="`/subscribe/topic/${topic.id}`">
                                     <button class="main--btn">Subscribe Package</button>
-                                </router-link>
+                                </router-link> -->
 
                                 <router-link v-if="(authToken && topic.is_subscribed == true)" :to="`/topic/${topic.id}`">
-                                    <button class="main--btn">go to Package</button>
+                                    <button class="main--btn">Take a Test</button>
                                 </router-link>
 
 
-                                <router-link v-if="(!authToken || (authToken && topic.is_subscribed == false))"
+                                <router-link v-if="((authToken && topic.is_subscribed == false))"
                                     :to="`/topic/${topic.id}`">
-                                    <button class="second--btn">Take A demo</button>
+                                    <button class="second--btn">Take A Test</button>
                                 </router-link>
 
                             </div>

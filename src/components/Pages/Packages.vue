@@ -207,6 +207,7 @@ export default {
                 console.log("error=>", error)
             }
         },
+        
         async sendData() {
             try {
 
