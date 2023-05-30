@@ -790,10 +790,13 @@ button:disabled {
 .about__us .about__info h3 {
   margin-bottom: 31px;
 }
-.about__us .about__info p.desc p {
+.about__us .about__info p.desc {
+  text-transform: none;
+}
+.about__us .about__info p.desc s p {
   position: relative;
 }
-.about__us .about__info p.desc p::after {
+.about__us .about__info p.desc s p::after {
   position: absolute;
   content: "";
   left: -22px;
@@ -890,6 +893,7 @@ button:disabled {
   margin-bottom: 17px;
 }
 .work .work_list ul li span.desc p {
+  text-transform: none;
   position: relative;
 }
 .work .work_list ul li span.desc p::after {
@@ -1010,6 +1014,9 @@ button:disabled {
   line-height: 1.4;
   margin-bottom: 35px;
   font-family: "Calibri-Bold";
+}
+.packages .package__content p {
+  text-transform: none;
 }
 .packages .packages__payment .head {
   gap: 110px;
@@ -1667,6 +1674,10 @@ button:disabled {
 }
 .examsPage .question_name p {
   font-size: 16px !important;
+  text-transform: none;
+}
+.examsPage .question_name p p {
+  text-transform: none;
 }
 .examsPage .question_name .table-responsive {
   width: 30%;

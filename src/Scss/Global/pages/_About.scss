@@ -9,11 +9,12 @@
 
     .about__info {
         h3 {
-            margin-bottom: 31px; 
+            margin-bottom: 31px;
         }
 
         p.desc {
-            p {
+            text-transform: none;
+            s p {
                 position: relative;
 
                 &::after {
